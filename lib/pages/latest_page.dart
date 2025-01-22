@@ -1,29 +1,38 @@
+import 'dart:math';
+import 'dart:developer' as dev;
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class LatestPage extends StatefulWidget {
-  const LatestPage({super.key, required this.images});
+import '../models/image_suit.dart';
+import '../utils.dart';
 
-  final List<String> images;
+class LatestPage extends StatefulWidget {
+  LatestPage({super.key, required this.images})
+      : _maxPage = (images.length / pageSize).ceil();
+  final int _maxPage;
+  final List<ImageSuit> images;
 
   @override
   State<LatestPage> createState() => _LatestPageState();
 }
 
 class _LatestPageState extends State<LatestPage> {
-  final int _pageSize = 24;
-  int _maxPage = 0;
   int _page = 0;
-  List<String> visibleImages = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _maxPage = (widget.images.length / _pageSize).ceil();
-    visibleImages.addAll(widget.images.getRange(0, _pageSize));
-  }
+  final List<String> visibleImages = [];
 
   @override
   Widget build(BuildContext context) {
+    if (_page == 0) {
+      visibleImages.addAll(_newPage);
+    }
+
+    dev.log(widget._maxPage.toString());
+    dev.log(_page.toString());
+    dev.log(visibleImages.length.toString());
+
+    // dev.log(visibleImages.length.toString());
+    // dev.log(widget.images.length.toString());
+    // dev.log(_maxPage.toString());
     return LayoutBuilder(builder: (context, constraints) {
       return Scaffold(
         body: SafeArea(
@@ -40,7 +49,14 @@ class _LatestPageState extends State<LatestPage> {
               childAspectRatio: 2 / 3,
             ),
             itemBuilder: (context, index) {
-              return Image.network(visibleImages[index]);
+              // return Image.network(
+              //   visibleImages[index],
+              //   fit: BoxFit.cover,
+              // );
+              return CachedNetworkImage(
+                imageUrl: visibleImages[index],
+                fadeInDuration: const Duration(milliseconds: 250),
+              );
             },
           ),
         )),
@@ -51,20 +67,23 @@ class _LatestPageState extends State<LatestPage> {
   // when hit the bottom of the gridview, load more images
   ScrollController get _scrollController {
     var controller = ScrollController();
-    var start = _page * _pageSize;
-    var end = (_page + 1) * _pageSize;
-    if (end > widget.images.length) {
-      end = widget.images.length;
-    }
     controller.addListener(() {
       if (controller.position.pixels == controller.position.maxScrollExtent &&
-          _page < _maxPage) {
+          _page < widget._maxPage) {
         setState(() {
           _page++;
-          visibleImages.addAll(widget.images.getRange(start, end));
+          visibleImages.addAll(_newPage);
         });
       }
     });
     return controller;
+  }
+
+  Iterable<String> get _newPage {
+    var start = _page * pageSize;
+    var end = min((_page + 1) * pageSize, widget.images.length);
+    return widget.images
+        .getRange(start, end)
+        .map((e) => getCoverURL(e.id, e.prefix));
   }
 }

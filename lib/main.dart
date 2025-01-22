@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mmimage_mobile/pages/main_page.dart';
+import 'package:provider/provider.dart';
+
+import 'image_store.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => ImageStore()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

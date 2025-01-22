@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../image_store.dart';
 import 'collection_page.dart';
 import 'latest_page.dart';
 import 'album_page.dart';
@@ -18,11 +20,24 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    var imageStore = context.watch<ImageStore>();
+
+    // if loaded is false, show loading, else show IndexedStack
+    if (!imageStore.loaded) {
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    var images = imageStore.latest;
+
     return Scaffold(
       body: IndexedStack(
         index: _selectedIndex,
         children: [
-          LatestPage(),
+          LatestPage(images: images),
           AlbumPage(),
           CollectionPage(),
           MorePage(),
@@ -39,6 +54,7 @@ class _MainPageState extends State<MainPage> {
         ),
         child: NavigationBar(
           selectedIndex: _selectedIndex,
+          height: 70,
           destinations: [
             NavigationDestination(
               icon: Icon(CupertinoIcons.square_grid_2x2_fill),
