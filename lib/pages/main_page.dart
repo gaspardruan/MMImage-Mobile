@@ -22,11 +22,14 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     var imageStore = context.watch<ImageStore>();
 
-    // if loaded is false, show loading, else show IndexedStack
+    // if loaded is false, show an icon of cat
     if (!imageStore.loaded) {
-      return Scaffold(
+      return const Scaffold(
         body: Center(
-          child: CircularProgressIndicator(),
+          child: Icon(
+            CupertinoIcons.camera_fill,
+            size: 100,
+          ),
         ),
       );
     }
@@ -38,15 +41,15 @@ class _MainPageState extends State<MainPage> {
         index: _selectedIndex,
         children: [
           LatestPage(images: images),
-          AlbumPage(),
-          CollectionPage(),
-          MorePage(),
+          const AlbumPage(),
+          const CollectionPage(),
+          const MorePage(),
         ],
       ),
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
           labelTextStyle: WidgetStateProperty.all(
-            TextStyle(
+            const TextStyle(
               height: 0.8,
               fontSize: 8,
             ),
@@ -56,19 +59,19 @@ class _MainPageState extends State<MainPage> {
           selectedIndex: _selectedIndex,
           height: 70,
           destinations: [
-            NavigationDestination(
+            const NavigationDestination(
               icon: Icon(CupertinoIcons.square_grid_2x2_fill),
               label: '最新',
             ),
-            NavigationDestination(
+            const NavigationDestination(
               icon: Icon(CupertinoIcons.collections_solid),
               label: '合集',
             ),
-            NavigationDestination(
+            const NavigationDestination(
               icon: Icon(CupertinoIcons.heart_fill),
               label: '收藏',
             ),
-            NavigationDestination(
+            const NavigationDestination(
               icon: Icon(CupertinoIcons.ellipsis_circle_fill),
               label: '更多',
             ),
