@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../image_store.dart';
@@ -36,51 +37,54 @@ class _MainPageState extends State<MainPage> {
 
     var images = imageStore.latest;
 
-    return Scaffold(
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: [
-          LatestPage(images: images),
-          const AlbumPage(),
-          const CollectionPage(),
-          const MorePage(),
-        ],
-      ),
-      bottomNavigationBar: NavigationBarTheme(
-        data: NavigationBarThemeData(
-          labelTextStyle: WidgetStateProperty.all(
-            const TextStyle(
-              height: 0.8,
-              fontSize: 8,
+    return AnnotatedRegion(
+      value: SystemUiOverlayStyle.light,
+      child: Scaffold(
+        body: IndexedStack(
+          index: _selectedIndex,
+          children: [
+            LatestPage(images: images),
+            const AlbumPage(),
+            const CollectionPage(),
+            const MorePage(),
+          ],
+        ),
+        bottomNavigationBar: NavigationBarTheme(
+          data: NavigationBarThemeData(
+            labelTextStyle: WidgetStateProperty.all(
+              const TextStyle(
+                height: 0.8,
+                fontSize: 8,
+              ),
             ),
           ),
-        ),
-        child: NavigationBar(
-          selectedIndex: _selectedIndex,
-          height: 70,
-          destinations: [
-            const NavigationDestination(
-              icon: Icon(CupertinoIcons.square_grid_2x2_fill),
-              label: '最新',
-            ),
-            const NavigationDestination(
-              icon: Icon(CupertinoIcons.collections_solid),
-              label: '合集',
-            ),
-            const NavigationDestination(
-              icon: Icon(CupertinoIcons.heart_fill),
-              label: '收藏',
-            ),
-            const NavigationDestination(
-              icon: Icon(CupertinoIcons.ellipsis_circle_fill),
-              label: '更多',
-            ),
-          ],
-          onDestinationSelected: (index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
+          child: NavigationBar(
+            selectedIndex: _selectedIndex,
+            height: 70,
+            destinations: [
+              const NavigationDestination(
+                icon: Icon(CupertinoIcons.square_grid_2x2_fill),
+                label: '最新',
+              ),
+              const NavigationDestination(
+                icon: Icon(CupertinoIcons.collections_solid),
+                label: '合集',
+              ),
+              const NavigationDestination(
+                icon: Icon(CupertinoIcons.heart_fill),
+                label: '收藏',
+              ),
+              const NavigationDestination(
+                icon: Icon(CupertinoIcons.ellipsis_circle_fill),
+                label: '更多',
+              ),
+            ],
+            onDestinationSelected: (index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
+          ),
         ),
       ),
     );

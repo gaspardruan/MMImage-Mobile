@@ -21,11 +21,15 @@ class _LatestPageState extends State<LatestPage> {
   final List<String> visibleImages = [];
 
   @override
-  Widget build(BuildContext context) {
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     if (_page == 0) {
       visibleImages.addAll(_newPage);
     }
+  }
 
+  @override
+  Widget build(BuildContext context) {
     dev.log(widget._maxPage.toString());
     dev.log(_page.toString());
     dev.log(visibleImages.length.toString());
@@ -48,20 +52,24 @@ class _LatestPageState extends State<LatestPage> {
               crossAxisSpacing: 8,
               childAspectRatio: 2 / 3,
             ),
-            itemBuilder: (context, index) {
-              // return Image.network(
-              //   visibleImages[index],
-              //   fit: BoxFit.cover,
-              // );
-              return CachedNetworkImage(
-                imageUrl: visibleImages[index],
-                fadeInDuration: const Duration(milliseconds: 250),
-              );
-            },
+            itemBuilder: (context, index) => _suitCover(context, index),
           ),
         )),
       );
     });
+  }
+
+  GestureDetector _suitCover(BuildContext context, int index) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, '/view',
+            arguments: getImageURLs(widget.images[index]));
+      },
+      child: CachedNetworkImage(
+        imageUrl: visibleImages[index],
+        fadeInDuration: const Duration(milliseconds: 250),
+      ),
+    );
   }
 
   // when hit the bottom of the gridview, load more images

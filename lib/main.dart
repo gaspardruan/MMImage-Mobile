@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:mmimage_mobile/pages/main_page.dart';
+import 'package:flutter/services.dart';
+import 'package:mmimage_mobile/route.dart';
 import 'package:provider/provider.dart';
 
 import 'image_store.dart';
 
 void main() {
+  // 设置手机状态栏为白色
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent, // 设置状态栏背景颜色为透明
+    statusBarIconBrightness: Brightness.light, // 设置状态栏图标为亮色
+  ));
+
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => ImageStore()),
   ], child: const MyApp()));
@@ -19,10 +26,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'MMImage',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.pink, brightness: Brightness.light),
         useMaterial3: true,
       ),
-      home: MainPage(),
+      darkTheme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.pink, brightness: Brightness.dark),
+        useMaterial3: true,
+      ),
+      onGenerateRoute: CustomRoute.generateRoute,
+      initialRoute: CustomRoute.mainPage,
     );
   }
 }
