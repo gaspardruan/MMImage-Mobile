@@ -3,6 +3,7 @@ import 'package:mmimage_mobile/models/image_suit.dart';
 const baseURL = 'http://newxiuren.com/uploadfiles/';
 const pageSize = 24;
 const cacheStep = 16;
+const coverCacheStep = 16;
 
 String getYearFromId(int id) {
   return id.toString().substring(0, 4);

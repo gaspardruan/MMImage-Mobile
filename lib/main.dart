@@ -8,6 +8,9 @@ void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => ImageStore()),
   ], child: const MyApp()));
+
+  PaintingBinding.instance.imageCache.maximumSize = 400;
+  PaintingBinding.instance.imageCache.maximumSizeBytes = 200 * 1024 * 1024;
 }
 
 class MyApp extends StatelessWidget {

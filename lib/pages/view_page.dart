@@ -19,20 +19,22 @@ class ViewPage extends StatefulWidget {
 
 class _ViewPageState extends State<ViewPage> {
   final HashSet<int> _cachedIndexes = HashSet<int>();
-  int _pageIndex = 0;
+  final ValueNotifier<int> _pageIndexNotifier = ValueNotifier<int>(0);
   bool _isAppBarVisible = false;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _preloadImage(0, cacheStep);
+    if (_pageIndexNotifier.value == 0) {
+      _preloadImage(0, cacheStep);
+    }
   }
 
-  void _preloadImage(int start, [int step = 1]) {
+  void _preloadImage(int start, [int len = 1]) {
     if (start < 0 || start >= widget.images.length) {
       return;
     }
-    final int end = min(widget.images.length, start + step);
+    final int end = min(widget.images.length, start + len);
     for (int i = start; i < end; i++) {
       if (!_cachedIndexes.contains(i)) {
         final String url = widget.images[i];
@@ -53,7 +55,10 @@ class _ViewPageState extends State<ViewPage> {
     return Stack(
       children: [
         Scaffold(
-          floatingActionButton: _pageNumLabel(context),
+          floatingActionButton: ValueListenableBuilder(
+              valueListenable: _pageIndexNotifier,
+              builder: (context, value, child) =>
+                  PageNumLabel(page: value, total: widget.images.length)),
           floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
           body: GestureDetector(
             onTap: _toggleAppBar,
@@ -98,15 +103,6 @@ class _ViewPageState extends State<ViewPage> {
     );
   }
 
-  Padding _pageNumLabel(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 4),
-      child: Text("${_pageIndex + 1} / ${widget.images.length}",
-          style: TextStyle(
-              fontSize: 10, color: Theme.of(context).colorScheme.onSurface)),
-    );
-  }
-
   PhotoViewGallery _photoPageView() {
     return PhotoViewGallery.builder(
       allowImplicitScrolling: true,
@@ -116,19 +112,41 @@ class _ViewPageState extends State<ViewPage> {
         imageProvider: CachedNetworkImageProvider(widget.images[index]),
       ),
       pageController: PageController(
-        initialPage: _pageIndex,
+        initialPage: _pageIndexNotifier.value,
       ),
       onPageChanged: (index) {
-        if (index > _pageIndex) {
+        if (index > _pageIndexNotifier.value) {
           _preloadImage(index + cacheStep - 1);
         }
-        setState(() {
-          _pageIndex = index;
-        });
+        // setState(() {
+        //   _pageIndex = index;
+        // });
+        _pageIndexNotifier.value = index;
       },
       scrollDirection: Axis.horizontal,
       backgroundDecoration:
           BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor),
+    );
+  }
+}
+
+class PageNumLabel extends StatelessWidget {
+  const PageNumLabel({
+    super.key,
+    required this.page,
+    required this.total,
+  });
+
+  final int page;
+  final int total;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 4),
+      child: Text("${page + 1} / $total",
+          style: TextStyle(
+              fontSize: 10, color: Theme.of(context).colorScheme.onSurface)),
     );
   }
 }

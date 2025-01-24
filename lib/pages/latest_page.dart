@@ -1,5 +1,6 @@
+import 'dart:collection';
 import 'dart:math';
-import 'dart:developer' as dev;
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,7 @@ class LatestPage extends StatefulWidget {
 class _LatestPageState extends State<LatestPage> {
   int _page = 0;
   final List<String> visibleImages = [];
+  final HashSet<int> _cachedIndexes = HashSet<int>();
 
   @override
   void didChangeDependencies() {
@@ -26,17 +28,25 @@ class _LatestPageState extends State<LatestPage> {
     if (_page == 0) {
       visibleImages.addAll(_newPage);
     }
+    _preloadImage(_page * pageSize, coverCacheStep);
+  }
+
+  void _preloadImage(int start, [int len = 1]) {
+    if (start < 0 || start >= visibleImages.length) {
+      return;
+    }
+    final int end = min(visibleImages.length, start + len);
+    for (int i = start; i < end; i++) {
+      if (!_cachedIndexes.contains(i)) {
+        final String url = visibleImages[i];
+        precacheImage(CachedNetworkImageProvider(url), context);
+        _cachedIndexes.add(i);
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    dev.log(widget._maxPage.toString());
-    dev.log(_page.toString());
-    dev.log(visibleImages.length.toString());
-
-    // dev.log(visibleImages.length.toString());
-    // dev.log(widget.images.length.toString());
-    // dev.log(_maxPage.toString());
     return LayoutBuilder(builder: (context, constraints) {
       return Scaffold(
         body: SafeArea(
@@ -60,6 +70,7 @@ class _LatestPageState extends State<LatestPage> {
   }
 
   GestureDetector _suitCover(BuildContext context, int index) {
+    _preloadImage(index + coverCacheStep);
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, '/view',
@@ -77,7 +88,7 @@ class _LatestPageState extends State<LatestPage> {
     var controller = ScrollController();
     controller.addListener(() {
       if (controller.position.pixels == controller.position.maxScrollExtent &&
-          _page < widget._maxPage) {
+          _page + 1 < widget._maxPage) {
         setState(() {
           _page++;
           visibleImages.addAll(_newPage);

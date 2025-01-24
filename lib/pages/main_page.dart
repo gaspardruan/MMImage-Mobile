@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +21,6 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     var imageStore = context.watch<ImageStore>();
-    log("NavigationBar color: ${Theme.of(context).navigationBarTheme.elevation}");
 
     if (!imageStore.loaded) {
       return const Scaffold(
