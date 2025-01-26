@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'dart:math';
+import 'dart:developer' as dev;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,7 +21,7 @@ class ViewPage extends StatefulWidget {
 class _ViewPageState extends State<ViewPage> {
   final HashSet<int> _cachedIndexes = HashSet<int>();
   final ValueNotifier<int> _pageIndexNotifier = ValueNotifier<int>(0);
-  bool _isAppBarVisible = false;
+  final ValueNotifier<bool> _isAppBarVisible = ValueNotifier<bool>(false);
 
   @override
   void didChangeDependencies() {
@@ -45,13 +46,12 @@ class _ViewPageState extends State<ViewPage> {
   }
 
   void _toggleAppBar() {
-    setState(() {
-      _isAppBarVisible = !_isAppBarVisible;
-    });
+    _isAppBarVisible.value = !_isAppBarVisible.value;
   }
 
   @override
   Widget build(BuildContext context) {
+    dev.log("ViewPage.build");
     return Stack(
       children: [
         Scaffold(
@@ -60,19 +60,31 @@ class _ViewPageState extends State<ViewPage> {
               builder: (context, value, child) =>
                   PageNumLabel(page: value, total: widget.images.length)),
           floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-          body: GestureDetector(
-            onTap: _toggleAppBar,
-            child: _photoPageView(),
+          body: NotificationListener<ScrollUpdateNotification>(
+            onNotification: (notification) {
+              if (_isAppBarVisible.value) {
+                _toggleAppBar();
+              }
+              return false;
+            },
+            child: GestureDetector(
+              onTap: _toggleAppBar,
+              child: _photoPageView(),
+            ),
           ),
         ),
-        AnimatedPositioned(
-          curve: Curves.easeInOut,
-          duration: Duration(milliseconds: 200),
-          top: _isAppBarVisible ? 0 : -100,
-          left: 0,
-          right: 0,
-          child: _appBar(context),
-        ),
+        ValueListenableBuilder(
+            valueListenable: _isAppBarVisible,
+            builder: (context, isVisible, child) {
+              return AnimatedPositioned(
+                curve: Curves.easeInOut,
+                duration: Duration(milliseconds: 200),
+                top: isVisible ? 0 : -100,
+                left: 0,
+                right: 0,
+                child: _appBar(context),
+              );
+            }),
       ],
     );
   }
@@ -118,9 +130,6 @@ class _ViewPageState extends State<ViewPage> {
         if (index > _pageIndexNotifier.value) {
           _preloadImage(index + cacheStep - 1);
         }
-        // setState(() {
-        //   _pageIndex = index;
-        // });
         _pageIndexNotifier.value = index;
       },
       scrollDirection: Axis.horizontal,
