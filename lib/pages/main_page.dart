@@ -17,6 +17,20 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
+  Widget? page;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final imageStore = context.read<ImageStore>();
+    if (imageStore.loaded) {
+      page = AlbumPage(
+        names: imageStore.names,
+        albums: imageStore.albums,
+        tags: imageStore.tags,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +47,14 @@ class _MainPageState extends State<MainPage> {
       );
     }
 
-    var images = imageStore.latest;
+    final images = imageStore.latest;
 
     return Scaffold(
       body: IndexedStack(
         index: _selectedIndex,
         children: [
           LatestPage(images: images),
-          const AlbumPage(),
+          page!,
           const CollectionPage(),
           const MorePage(),
         ],
