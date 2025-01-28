@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:mmimage_mobile/models/name_model.dart';
+import 'package:mmimage_mobile/utils.dart';
 
 import 'models/beauty_suit.dart';
 import 'models/image_suit.dart';
@@ -17,10 +18,39 @@ class ImageStore extends ChangeNotifier {
   late List<NameModel> names;
   late Map<String, ImageCollection> albums;
   late List<String> tags;
+
+  Map<String, ImageSuit> collections = {};
+
   bool loaded = false;
 
   ImageStore() {
     initStore();
+  }
+
+  void like(ImageSuit suit) {
+    final key = getId(suit);
+    if (!collections.containsKey(key)) {
+      collections[key] = suit;
+      notifyListeners();
+    }
+  }
+
+  void dislike(ImageSuit suit) {
+    final key = getId(suit);
+    if (collections.containsKey(key)) {
+      collections.remove(key);
+      notifyListeners();
+    }
+  }
+
+  void toggle(ImageSuit suit) {
+    final key = getId(suit);
+    if (collections.containsKey(key)) {
+      collections.remove(key);
+    } else {
+      collections[key] = suit;
+    }
+    notifyListeners();
   }
 
   Future initStore() async {

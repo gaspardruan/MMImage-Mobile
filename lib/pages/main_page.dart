@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,23 +19,10 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
-  Widget? page;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final imageStore = context.read<ImageStore>();
-    if (imageStore.loaded) {
-      page = AlbumPage(
-        names: imageStore.names,
-        albums: imageStore.albums,
-        tags: imageStore.tags,
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
+    log("MainPage build");
     var imageStore = context.watch<ImageStore>();
 
     if (!imageStore.loaded) {
@@ -48,16 +37,27 @@ class _MainPageState extends State<MainPage> {
     }
 
     final images = imageStore.latest;
+    final collections = imageStore.collections.values.toList();
+
+    final pages = <Widget>[
+      LatestPage(key: Key("Latest-${images.length}"), images: images),
+      AlbumPage(
+        key: Key('Album-${images.length}'),
+        names: imageStore.names,
+        albums: imageStore.albums,
+        tags: imageStore.tags,
+      ),
+      CollectionPage(
+          key: Key("Collection-${imageStore.collections.length}"),
+          images: collections),
+      MorePage(),
+    ];
 
     return Scaffold(
+      // body: PageStorage(bucket: _bucket, child: pages[_selectedIndex]),
       body: IndexedStack(
         index: _selectedIndex,
-        children: [
-          LatestPage(images: images),
-          page!,
-          const CollectionPage(),
-          const MorePage(),
-        ],
+        children: pages,
       ),
       bottomNavigationBar: _bottomNavigationBar(),
     );

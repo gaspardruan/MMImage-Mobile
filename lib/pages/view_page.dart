@@ -6,12 +6,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view_gallery.dart';
+import 'package:provider/provider.dart';
 
+import '../image_store.dart';
+import '../models/image_suit.dart';
 import '../utils.dart';
 
 class ViewPage extends StatefulWidget {
-  const ViewPage({super.key, required this.images});
+  ViewPage({super.key, required this.imageSuit})
+      : images = getImageURLs(imageSuit);
 
+  final ImageSuit imageSuit;
   final List<String> images;
 
   @override
@@ -90,6 +95,8 @@ class _ViewPageState extends State<ViewPage> {
   }
 
   GestureDetector _appBar(BuildContext context) {
+    var imageStore = context.watch<ImageStore>();
+
     return GestureDetector(
       onTap: _toggleAppBar,
       child: AppBar(
@@ -108,7 +115,9 @@ class _ViewPageState extends State<ViewPage> {
         actions: [
           IconButton(
             icon: const Icon(CupertinoIcons.heart),
-            onPressed: () {},
+            onPressed: () {
+              imageStore.toggle(widget.imageSuit);
+            },
           ),
         ],
       ),

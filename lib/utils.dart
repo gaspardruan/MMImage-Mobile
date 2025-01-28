@@ -22,3 +22,7 @@ List<String> getImageURLs(ImageSuit suit) {
           '$baseURL/$prefix/${getYearFromId(id)}/$id/${id * 100 + i + 1}.jpg',
       growable: false);
 }
+
+String getId(ImageSuit suit) {
+  return '${suit.prefix}-${suit.id}';
+}

@@ -17,7 +17,7 @@ class CustomRoute {
       case viewPage:
         return MaterialPageRoute(
             builder: (_) => ViewPage(
-                  images: settings.arguments as List<String>,
+                  imageSuit: settings.arguments as ImageSuit,
                 ));
       case albumDetailPage:
         final args =

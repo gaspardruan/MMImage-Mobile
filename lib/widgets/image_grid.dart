@@ -73,7 +73,7 @@ class _ImageGridState extends State<ImageGrid> {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, CustomRoute.viewPage,
-            arguments: getImageURLs(widget.images[index]));
+            arguments: widget.images[index]);
       },
       child: CachedNetworkImage(
         imageUrl: visibleImages[index],
