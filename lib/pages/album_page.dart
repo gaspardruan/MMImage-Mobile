@@ -27,9 +27,23 @@ class AlbumPage extends StatelessWidget {
         itemBuilder: (context, index) {
           final NameModel name = names[index];
           return ListTile(
-            title: Text(name.name,
-                style:
-                    TextStyle(color: Theme.of(context).colorScheme.onSurface)),
+            title: Row(
+              children: [
+                Text(name.name,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface)),
+                SizedBox(
+                  width: 2,
+                ),
+                Text(albums[name.name]!.num.toString(),
+                    style: TextStyle(
+                        fontSize: 9,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withAlpha(150))),
+              ],
+            ),
             contentPadding: EdgeInsets.zero,
             dense: true,
             visualDensity: VisualDensity.compact,
