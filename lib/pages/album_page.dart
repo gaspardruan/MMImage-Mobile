@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mmimage_mobile/models/name_model.dart';
 
 import '../models/beauty_suit.dart';
+import '../route.dart';
 
 class AlbumPage extends StatelessWidget {
   const AlbumPage(
@@ -51,7 +52,11 @@ class AlbumPage extends StatelessWidget {
                 bottom: BorderSide(
                     width: 0.5, color: Theme.of(context).focusColor)),
             onTap: () {
-              // 处理点击事件
+              Navigator.of(context).pushNamed(CustomRoute.albumDetailPage,
+                  arguments: (
+                    name: name.name,
+                    images: albums[name.name]!.suits
+                  ));
             },
           );
         },

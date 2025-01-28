@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../models/image_suit.dart';
+import '../route.dart';
 import '../utils.dart';
 
 class ImageGrid extends StatefulWidget {
@@ -48,24 +49,22 @@ class _ImageGridState extends State<ImageGrid> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      return Scaffold(
-        body: SafeArea(
-            child: Scrollbar(
-          radius: const Radius.circular(2),
-          child: GridView.builder(
-            controller: _scrollController,
-            padding: const EdgeInsets.all(8.0),
-            itemCount: visibleImages.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: (constraints.maxWidth - 16) ~/ 160,
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 8,
-              childAspectRatio: 2 / 3,
-            ),
-            itemBuilder: (context, index) => _suitCover(context, index),
+      return SafeArea(
+          child: Scrollbar(
+        radius: const Radius.circular(2),
+        child: GridView.builder(
+          controller: _scrollController,
+          padding: const EdgeInsets.all(8.0),
+          itemCount: visibleImages.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: (constraints.maxWidth - 16) ~/ 160,
+            mainAxisSpacing: 8,
+            crossAxisSpacing: 8,
+            childAspectRatio: 2 / 3,
           ),
-        )),
-      );
+          itemBuilder: (context, index) => _suitCover(context, index),
+        ),
+      ));
     });
   }
 
@@ -73,7 +72,7 @@ class _ImageGridState extends State<ImageGrid> {
     _preloadImage(index + coverCacheStep);
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/view',
+        Navigator.pushNamed(context, CustomRoute.viewPage,
             arguments: getImageURLs(widget.images[index]));
       },
       child: CachedNetworkImage(
