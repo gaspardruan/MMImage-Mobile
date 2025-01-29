@@ -22,4 +22,12 @@ class ImageSuit {
   static List<ImageSuit> fromJsonList(List<dynamic> jsonList) {
     return jsonList.map((e) => ImageSuit.fromJson(e)).toList();
   }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'count': count,
+        'prefix': prefix,
+        'time': time.toIso8601String(),
+      };
 }

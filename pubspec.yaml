@@ -39,6 +39,7 @@ dependencies:
   cached_network_image: ^3.4.1
   photo_view: ^0.15.0
   azlistview: ^2.0.0
+  shared_preferences: ^2.4.0
 
 dev_dependencies:
   flutter_test:

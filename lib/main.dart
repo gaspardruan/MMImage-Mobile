@@ -7,8 +7,14 @@ import 'route.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (context) => ImageStore()),
-    ChangeNotifierProvider(create: (context) => CollectionStore()),
+    ChangeNotifierProvider(
+      create: (context) => ImageStore(),
+      lazy: false,
+    ),
+    ChangeNotifierProvider(
+      create: (context) => CollectionStore(),
+      lazy: false,
+    ),
   ], child: const MyApp()));
 
   PaintingBinding.instance.imageCache.maximumSize = 400;
