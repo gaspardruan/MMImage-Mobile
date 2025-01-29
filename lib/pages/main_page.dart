@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../image_store.dart';
+import '../stores/image_store.dart';
 import 'collection_page.dart';
 import 'latest_page.dart';
 import 'album_page.dart';
@@ -36,21 +36,11 @@ class _MainPageState extends State<MainPage> {
       );
     }
 
-    final images = imageStore.latest;
-    final collections = imageStore.collections.values.toList();
-
     final pages = <Widget>[
-      LatestPage(key: Key("Latest-${images.length}"), images: images),
-      AlbumPage(
-        key: Key('Album-${images.length}'),
-        names: imageStore.names,
-        albums: imageStore.albums,
-        tags: imageStore.tags,
-      ),
-      CollectionPage(
-          key: Key("Collection-${imageStore.collections.length}"),
-          images: collections),
-      MorePage(),
+      const LatestPage(),
+      const AlbumPage(),
+      const CollectionPage(),
+      const MorePage(),
     ];
 
     return Scaffold(

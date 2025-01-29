@@ -1,23 +1,19 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../stores/image_store.dart';
 import '../widgets/image_grid.dart';
-import '../models/image_suit.dart';
 
-class LatestPage extends StatefulWidget {
-  const LatestPage({super.key, required this.images});
+class LatestPage extends StatelessWidget {
+  const LatestPage({super.key});
 
-  final List<ImageSuit> images;
-
-  @override
-  State<LatestPage> createState() => _LatestPageState();
-}
-
-class _LatestPageState extends State<LatestPage> {
   @override
   Widget build(BuildContext context) {
     log("LatestPage build");
-    return ImageGrid(images: widget.images);
+    final imageStore = context.watch<ImageStore>();
+    final images = imageStore.latest;
+    return ImageGrid(key: Key("Latest-${images.length}"), images: images);
   }
 }

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:provider/provider.dart';
 
-import '../image_store.dart';
+import '../stores/colletion_store.dart';
 import '../models/image_suit.dart';
 import '../utils.dart';
 
@@ -95,8 +95,7 @@ class _ViewPageState extends State<ViewPage> {
   }
 
   GestureDetector _appBar(BuildContext context) {
-    var imageStore = context.watch<ImageStore>();
-
+    dev.log("APPBAR.build");
     return GestureDetector(
       onTap: _toggleAppBar,
       child: AppBar(
@@ -113,12 +112,7 @@ class _ViewPageState extends State<ViewPage> {
           onPressed: () => Navigator.pop(context),
         ),
         actions: [
-          IconButton(
-            icon: const Icon(CupertinoIcons.heart),
-            onPressed: () {
-              imageStore.toggle(widget.imageSuit);
-            },
-          ),
+          LikeorDislikeButton(imageSuit: widget.imageSuit),
         ],
       ),
     );
@@ -165,6 +159,29 @@ class PageNumLabel extends StatelessWidget {
       child: Text("${page + 1} / $total",
           style: TextStyle(
               fontSize: 10, color: Theme.of(context).colorScheme.onSurface)),
+    );
+  }
+}
+
+class LikeorDislikeButton extends StatelessWidget {
+  const LikeorDislikeButton({super.key, required this.imageSuit});
+
+  final ImageSuit imageSuit;
+
+  @override
+  Widget build(BuildContext context) {
+    dev.log("LikeorDislikeButton.build");
+    var collectionStore = context.watch<CollectionStore>();
+    return IconButton(
+      icon: Icon(
+        collectionStore.contains(imageSuit)
+            ? CupertinoIcons.heart_fill
+            : CupertinoIcons.heart,
+        color: Theme.of(context).colorScheme.onSurfaceVariant,
+      ),
+      onPressed: () {
+        collectionStore.toggle(imageSuit);
+      },
     );
   }
 }

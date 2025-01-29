@@ -2,21 +2,23 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../models/image_suit.dart';
+import '../stores/colletion_store.dart';
 import '../widgets/image_grid.dart';
 
 class CollectionPage extends StatelessWidget {
-  const CollectionPage({super.key, required this.images});
-
-  final List<ImageSuit> images;
+  const CollectionPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final collectionStore = context.watch<CollectionStore>();
+    final images = collectionStore.collections.values.toList();
     log("CollectionPage build: ${images.length}");
     return SafeArea(
-      child:
-          images.isEmpty ? const EmptyCollection() : ImageGrid(images: images),
+      child: images.isEmpty
+          ? const EmptyCollection()
+          : ImageGrid(key: Key('Collection-${images.length}'), images: images),
     );
   }
 }
