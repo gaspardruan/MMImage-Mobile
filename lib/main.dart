@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'stores/colletion_store.dart';
-import 'stores/image_store.dart';
+import 'stores/global_store.dart';
 import 'route.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
-      create: (context) => ImageStore(),
+      create: (context) => GlobalStore(),
       lazy: false,
     ),
     ChangeNotifierProvider(

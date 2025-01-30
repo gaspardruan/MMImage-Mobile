@@ -26,3 +26,11 @@ List<String> getImageURLs(ImageSuit suit) {
 String getId(ImageSuit suit) {
   return '${suit.prefix}-${suit.id}';
 }
+
+bool shouldUpdate(DateTime lastUpdate) {
+  final now = DateTime.now();
+  final oneClock = DateTime(now.year, now.month, now.day, 1, 1);
+  final yesterdayOncClock = oneClock.subtract(Duration(days: 1));
+  return now.isAfter(oneClock) && lastUpdate.isBefore(oneClock) ||
+      now.isBefore(oneClock) && lastUpdate.isBefore(yesterdayOncClock);
+}

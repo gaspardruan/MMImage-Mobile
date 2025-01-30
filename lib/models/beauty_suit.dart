@@ -23,4 +23,9 @@ class ImageCollection {
   ImageCollection.fromJson(Map<String, dynamic> json)
       : num = json['num'],
         suits = ImageSuit.fromJsonList(json['images']);
+
+  Map<String, dynamic> toJson() => {
+        'num': num,
+        'images': suits.map((e) => e.toJson()).toList(),
+      };
 }

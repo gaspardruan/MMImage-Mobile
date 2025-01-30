@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:mmimage_mobile/stores/colletion_store.dart';
 import 'package:provider/provider.dart';
 
-import '../stores/image_store.dart';
+import '../stores/global_store.dart';
 import 'collection_page.dart';
 import 'latest_page.dart';
 import 'album_page.dart';
@@ -39,13 +39,14 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         state == AppLifecycleState.detached) {
       log("AppLifecycleState: $state");
       context.read<CollectionStore>().save();
+      context.read<GlobalStore>().save();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     log("MainPage build");
-    var imageStore = context.watch<ImageStore>();
+    var imageStore = context.watch<GlobalStore>();
 
     if (!imageStore.loaded) {
       return const Scaffold(

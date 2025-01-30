@@ -41,8 +41,11 @@ class CollectionStore extends ChangeNotifier {
   }
 
   void initStore() async {
-    collections = await CollectionPersistence.load();
-    notifyListeners();
+    final c = await CollectionPersistence.load();
+    if (c.isNotEmpty) {
+      collections = c;
+      notifyListeners();
+    }
   }
 
   void save() async {

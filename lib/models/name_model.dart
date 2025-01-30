@@ -14,4 +14,13 @@ class NameModel extends ISuspensionBean {
 
   @override
   String getSuspensionTag() => tag;
+
+  NameModel.fromJson(Map<String, dynamic> json)
+      : name = json['name'],
+        tag = json['tag'];
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'tag': tag,
+      };
 }

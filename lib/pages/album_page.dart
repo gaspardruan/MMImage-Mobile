@@ -5,7 +5,7 @@ import 'package:mmimage_mobile/models/name_model.dart';
 import 'package:provider/provider.dart';
 
 import '../route.dart';
-import '../stores/image_store.dart';
+import '../stores/global_store.dart';
 
 class AlbumPage extends StatelessWidget {
   const AlbumPage({super.key});
@@ -13,7 +13,7 @@ class AlbumPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     log('AlbumPage.build');
-    final imageStore = context.watch<ImageStore>();
+    final imageStore = context.watch<GlobalStore>();
     final names = imageStore.names;
     final albums = imageStore.albums;
     final tags = imageStore.tags;
