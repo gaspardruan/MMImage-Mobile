@@ -1,6 +1,5 @@
 import 'dart:collection';
 import 'dart:math';
-import 'dart:developer' as dev;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -56,7 +55,6 @@ class _ViewPageState extends State<ViewPage> {
 
   @override
   Widget build(BuildContext context) {
-    dev.log("ViewPage.build");
     return Stack(
       children: [
         Scaffold(
@@ -95,7 +93,6 @@ class _ViewPageState extends State<ViewPage> {
   }
 
   GestureDetector _appBar(BuildContext context) {
-    dev.log("APPBAR.build");
     return GestureDetector(
       onTap: _toggleAppBar,
       child: AppBar(
@@ -170,7 +167,6 @@ class LikeorDislikeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    dev.log("LikeorDislikeButton.build");
     var collectionStore = context.watch<CollectionStore>();
     return IconButton(
       icon: Icon(

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +12,6 @@ class CollectionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final collectionStore = context.watch<CollectionStore>();
     final images = collectionStore.collections.values.toList();
-    log("CollectionPage build: ${images.length}");
     return SafeArea(
       child: images.isEmpty
           ? const EmptyCollection()

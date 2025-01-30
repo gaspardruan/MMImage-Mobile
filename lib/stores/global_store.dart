@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -56,9 +55,7 @@ class GlobalStore extends ChangeNotifier {
   }
 
   Future initStore() async {
-    log("Start loading:${DateTime.now()}");
     final notFirstLoad = await updateFromLocal();
-    log("Loaded:${DateTime.now()}");
     if (notFirstLoad) {
       loaded = true;
       notifyListeners();

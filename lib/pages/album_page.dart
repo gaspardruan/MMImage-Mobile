@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:azlistview/azlistview.dart';
 import 'package:flutter/material.dart';
 import 'package:mmimage_mobile/models/name_model.dart';
@@ -12,7 +11,6 @@ class AlbumPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log('AlbumPage.build');
     final imageStore = context.watch<GlobalStore>();
     final names = imageStore.names;
     final albums = imageStore.albums;

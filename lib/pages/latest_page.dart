@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +9,6 @@ class LatestPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log("LatestPage build");
     final imageStore = context.watch<GlobalStore>();
     final images = imageStore.latest;
     return ImageGrid(key: Key("Latest-${images.length}"), images: images);

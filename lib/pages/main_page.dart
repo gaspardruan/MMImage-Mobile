@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mmimage_mobile/stores/colletion_store.dart';
@@ -37,7 +35,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.inactive ||
         state == AppLifecycleState.detached) {
-      log("AppLifecycleState: $state");
       context.read<CollectionStore>().save();
       context.read<GlobalStore>().save();
     }
@@ -45,7 +42,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    log("MainPage build");
     var imageStore = context.watch<GlobalStore>();
 
     if (!imageStore.loaded) {

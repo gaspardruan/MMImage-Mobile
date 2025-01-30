@@ -9,7 +9,7 @@ class NameModel extends ISuspensionBean {
     required this.tag,
     showSuspension = false,
   }) {
-    super.isShowSuspension = showSuspension;
+    isShowSuspension = showSuspension;
   }
 
   @override
@@ -17,10 +17,13 @@ class NameModel extends ISuspensionBean {
 
   NameModel.fromJson(Map<String, dynamic> json)
       : name = json['name'],
-        tag = json['tag'];
+        tag = json['tag'] {
+    isShowSuspension = json['isShowSuspension'] ?? false;
+  }
 
   Map<String, dynamic> toJson() => {
         'name': name,
         'tag': tag,
+        'isShowSuspension': isShowSuspension,
       };
 }
