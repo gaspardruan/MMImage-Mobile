@@ -11,6 +11,7 @@ class LatestPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final imageStore = context.watch<GlobalStore>();
     final images = imageStore.latest;
-    return ImageGrid(key: Key("Latest-${images.length}"), images: images);
+    return SafeArea(
+        child: ImageGrid(key: Key("Latest-${images.length}"), images: images));
   }
 }

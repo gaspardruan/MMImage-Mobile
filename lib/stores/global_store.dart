@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mmimage_mobile/models/name_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,12 +42,19 @@ class GlobalPersistence {
 }
 
 class GlobalStore extends ChangeNotifier {
+  // data
   late List<ImageSuit> latest;
   late List<NameModel> names;
   late Map<String, ImageCollection> albums;
   late List<String> tags;
 
+  // time
   DateTime lastUpdate = DateTime.fromMillisecondsSinceEpoch(0);
+
+  // setting
+  ThemeMode themeMode = ThemeMode.dark;
+  int columnNum = 0;
+
   bool loaded = false;
 
   GlobalStore() {
@@ -108,6 +115,16 @@ class GlobalStore extends ChangeNotifier {
       'tags': tags,
       'lastUpdate': DateTime.now().toIso8601String(),
     });
+  }
+
+  void setThemeMode(ThemeMode mode) {
+    themeMode = mode;
+    notifyListeners();
+  }
+
+  void setColumnNum(int num) {
+    columnNum = num;
+    notifyListeners();
   }
 
   List<NameModel> _nameTrans(Map<String, List<String>> nameMap) {
