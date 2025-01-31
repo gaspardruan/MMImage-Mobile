@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mmimage_mobile/utils.dart';
@@ -74,7 +72,9 @@ class MorePage extends StatelessWidget {
           children: [
             CupertinoListTile(
               title: Text("关于作者", style: normalText),
-              onTap: () => {},
+              onTap: () => {
+                Navigator.pushNamed(context, '/setting_about'),
+              },
               trailing: const CupertinoListTileChevron(),
             ),
           ],

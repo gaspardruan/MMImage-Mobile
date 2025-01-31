@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mmimage_mobile/models/image_suit.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 const baseURL = 'http://newxiuren.com/uploadfiles/';
+const gihubHome = 'https://github.com/gaspardruan/MMImage-Mobile';
+const bilibiliHome = 'https://space.bilibili.com/470093851';
 const pageSize = 24;
 const cacheStep = 16;
 const coverCacheStep = 16;
@@ -70,4 +73,18 @@ Icon getThemeModeIcon(ThemeMode themeMode) {
     case ThemeMode.dark:
       return const Icon(CupertinoIcons.moon_stars_fill);
   }
+}
+
+Future<void> launchURL(String url) async {
+  if (!await launchUrl(Uri.parse(url), mode: LaunchMode.platformDefault)) {
+    throw 'Could not launch $url';
+  }
+}
+
+void goGithubHome() {
+  launchURL(gihubHome);
+}
+
+void goBilibiliHome() {
+  launchURL(bilibiliHome);
 }

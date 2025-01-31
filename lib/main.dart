@@ -1,3 +1,9 @@
+// ignore: dangling_library_doc_comments
+/// file: main.dart
+/// author: gaspardruan
+/// time: 2025/1/31
+/// email: 1039553124@qq.com
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
