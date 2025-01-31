@@ -64,10 +64,10 @@ String getTimeStr(DateTime time) {
 Icon getThemeModeIcon(ThemeMode themeMode) {
   switch (themeMode) {
     case ThemeMode.system:
-      return const Icon(CupertinoIcons.sun_min);
+      return const Icon(CupertinoIcons.sun_min_fill);
     case ThemeMode.light:
-      return const Icon(CupertinoIcons.sun_max);
+      return const Icon(CupertinoIcons.sun_max_fill);
     case ThemeMode.dark:
-      return const Icon(CupertinoIcons.moon);
+      return const Icon(CupertinoIcons.moon_stars_fill);
   }
 }

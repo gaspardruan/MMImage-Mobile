@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mmimage_mobile/utils.dart';
@@ -5,14 +7,9 @@ import 'package:provider/provider.dart';
 
 import '../stores/global_store.dart';
 
-class MorePage extends StatefulWidget {
+class MorePage extends StatelessWidget {
   const MorePage({super.key});
 
-  @override
-  State<MorePage> createState() => _MorePageState();
-}
-
-class _MorePageState extends State<MorePage> {
   @override
   Widget build(BuildContext context) {
     final globalStore = context.watch<GlobalStore>();
@@ -21,69 +18,67 @@ class _MorePageState extends State<MorePage> {
     final imageNumStr = '${globalStore.latest.length} 套';
     final lastUpdateStr = getTimeStr(globalStore.lastUpdate);
 
+    final smallText =
+        TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurface);
+    final normalText =
+        TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurface);
+
     return SafeArea(
         child: Column(
       children: [
-        CupertinoFormSection.insetGrouped(
-          header: const Text('外观', style: TextStyle(fontSize: 12)),
+        CupertinoListSection.insetGrouped(
+          hasLeading: false,
+          dividerMargin: 6,
+          header: Text('外观', style: smallText),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           children: [
-            CupertinoFormRow(
-              prefix: const Text("主题", style: TextStyle(fontSize: 14)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(themeStr,
-                      style: TextStyle(
-                        color: CupertinoColors.systemGrey2.resolveFrom(context),
-                      )),
-                  const CupertinoListTileChevron(),
-                ],
-              ),
+            CupertinoListTile(
+              title: Text("主题", style: normalText),
+              onTap: () => Navigator.pushNamed(context, '/setting_theme'),
+              additionalInfo: Text(themeStr, style: TextStyle(fontSize: 14)),
+              trailing: const CupertinoListTileChevron(),
             ),
-            CupertinoFormRow(
-                prefix: const Text('列数', style: TextStyle(fontSize: 14)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(columnNumStr,
-                        style: TextStyle(
-                          color:
-                              CupertinoColors.systemGrey2.resolveFrom(context),
-                        )),
-                    const CupertinoListTileChevron(),
-                  ],
-                )),
-          ],
-        ),
-        CupertinoFormSection.insetGrouped(
-          header: const Text('数据', style: TextStyle(fontSize: 12)),
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          children: [
-            CupertinoFormRow(
-              prefix: const Text("套图总数", style: TextStyle(fontSize: 14)),
-              child: Text(imageNumStr,
-                  style: TextStyle(
-                      color: CupertinoColors.systemGrey2.resolveFrom(context))),
-            ),
-            CupertinoFormRow(
-              prefix: const Text("更新时间", style: TextStyle(fontSize: 14)),
-              child: Text(lastUpdateStr,
-                  style: TextStyle(
-                      color: CupertinoColors.systemGrey2.resolveFrom(context))),
+            CupertinoListTile(
+              title: Text("列数", style: normalText),
+              onTap: () => Navigator.pushNamed(context, '/setting_column'),
+              additionalInfo:
+                  Text(columnNumStr, style: TextStyle(fontSize: 14)),
+              trailing: const CupertinoListTileChevron(),
             ),
           ],
         ),
-        CupertinoFormSection.insetGrouped(
-          header: const Text('我', style: TextStyle(fontSize: 12)),
+        CupertinoListSection.insetGrouped(
+          hasLeading: false,
+          dividerMargin: 6,
+          header: Text('数据', style: smallText),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           children: [
-            CupertinoFormRow(
-              prefix: const Text("关于作者", style: TextStyle(fontSize: 14)),
-              child: const CupertinoListTileChevron(),
-            )
+            CupertinoListTile(
+              title: Text("图片数量", style: normalText),
+              onTap: () => {},
+              additionalInfo: Text(imageNumStr, style: TextStyle(fontSize: 14)),
+            ),
+            CupertinoListTile(
+              title: Text("最后更新", style: normalText),
+              onTap: () => {},
+              additionalInfo:
+                  Text(lastUpdateStr, style: TextStyle(fontSize: 14)),
+            ),
           ],
-        )
+        ),
+        CupertinoListSection.insetGrouped(
+          hasLeading: false,
+          dividerMargin: 6,
+          header: Text('作者', style: smallText),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          children: [
+            CupertinoListTile(
+              title: Text("关于作者", style: normalText),
+              onTap: () => {},
+              trailing: const CupertinoListTileChevron(),
+            ),
+          ],
+        ),
       ],
     ));
   }

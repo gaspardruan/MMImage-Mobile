@@ -3,9 +3,11 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../models/image_suit.dart';
 import '../route.dart';
+import '../stores/global_store.dart';
 import '../utils.dart';
 
 class ImageGrid extends StatefulWidget {
@@ -48,6 +50,8 @@ class _ImageGridState extends State<ImageGrid> {
 
   @override
   Widget build(BuildContext context) {
+    final columnNum = context.watch<GlobalStore>().columnNum;
+
     return LayoutBuilder(builder: (context, constraints) {
       return SafeArea(
           child: Scrollbar(
@@ -57,7 +61,8 @@ class _ImageGridState extends State<ImageGrid> {
           padding: const EdgeInsets.all(8.0),
           itemCount: visibleImages.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: (constraints.maxWidth - 16) ~/ 160,
+            crossAxisCount:
+                columnNum == 0 ? (constraints.maxWidth - 16) ~/ 160 : columnNum,
             mainAxisSpacing: 8,
             crossAxisSpacing: 8,
             childAspectRatio: 2 / 3,

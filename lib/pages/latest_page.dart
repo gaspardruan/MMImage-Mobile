@@ -9,9 +9,14 @@ class LatestPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final imageStore = context.watch<GlobalStore>();
-    final images = imageStore.latest;
+    final globalStore = context.watch<GlobalStore>();
+    final columnNum = globalStore.columnNum;
+    final themeMode = globalStore.themeMode;
+    final images = globalStore.latest;
     return SafeArea(
-        child: ImageGrid(key: Key("Latest-${images.length}"), images: images));
+        child: ImageGrid(
+            key: Key(
+                "Latest-${images.length}-$columnNum-${themeMode.toString()}"),
+            images: images));
   }
 }

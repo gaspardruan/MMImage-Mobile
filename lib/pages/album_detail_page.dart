@@ -12,6 +12,8 @@ class AlbumDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final normalText =
+        TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurface);
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 48,
@@ -20,7 +22,7 @@ class AlbumDetailPage extends StatelessWidget {
           icon: const Icon(CupertinoIcons.back),
           onPressed: () => Navigator.pop(context),
         ),
-        titleTextStyle: const TextStyle(fontSize: 16),
+        titleTextStyle: normalText,
         title: Row(
           children: [
             Text(name),
@@ -33,7 +35,7 @@ class AlbumDetailPage extends StatelessWidget {
                     color: Theme.of(context)
                         .colorScheme
                         .onSurface
-                        .withAlpha(150))),
+                        .withAlpha(180))),
           ],
         ),
         titleSpacing: 0,

@@ -113,7 +113,7 @@ class GlobalStore extends ChangeNotifier {
       'names': names.map((e) => e.toJson()).toList(),
       'albums': albums.map((key, value) => MapEntry(key, value.toJson())),
       'tags': tags,
-      'lastUpdate': DateTime.now().toIso8601String(),
+      'lastUpdate': lastUpdate.toIso8601String(),
     });
   }
 

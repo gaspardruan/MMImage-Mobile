@@ -19,7 +19,7 @@ class AlbumPage extends StatelessWidget {
     final nameStyle = TextStyle(color: Theme.of(context).colorScheme.onSurface);
     final numStyle = TextStyle(
         fontSize: 9,
-        color: Theme.of(context).colorScheme.onSurface.withAlpha(150));
+        color: Theme.of(context).colorScheme.onSurface.withAlpha(180));
     final tagStyle = Theme.of(context).textTheme.bodySmall?.copyWith(
         fontWeight: FontWeight.bold,
         color: Theme.of(context).colorScheme.onSurfaceVariant);

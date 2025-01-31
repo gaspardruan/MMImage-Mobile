@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mmimage_mobile/stores/global_store.dart';
 import 'package:provider/provider.dart';
 
 import '../stores/colletion_store.dart';
@@ -11,11 +12,17 @@ class CollectionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final collectionStore = context.watch<CollectionStore>();
+    final globalStore = context.watch<GlobalStore>();
+    final columnNum = globalStore.columnNum;
+    final themeMode = globalStore.themeMode;
     final images = collectionStore.collections.values.toList();
     return SafeArea(
       child: images.isEmpty
           ? const EmptyCollection()
-          : ImageGrid(key: Key('Collection-${images.length}'), images: images),
+          : ImageGrid(
+              key: Key(
+                  'Collection-${images.length}-$columnNum-${themeMode.toString()}'),
+              images: images),
     );
   }
 }
