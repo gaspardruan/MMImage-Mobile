@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mmimage_mobile/models/name_model.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/beauty_suit.dart';
@@ -55,6 +56,9 @@ class GlobalStore extends ChangeNotifier {
   ThemeMode themeMode = ThemeMode.dark;
   int columnNum = 0;
 
+  // version
+  String version = '0.0.0';
+
   bool loaded = false;
 
   GlobalStore() {
@@ -63,6 +67,7 @@ class GlobalStore extends ChangeNotifier {
 
   Future initStore() async {
     final notFirstLoad = await updateFromLocal();
+    version = (await PackageInfo.fromPlatform()).version;
     if (notFirstLoad) {
       loaded = true;
       notifyListeners();

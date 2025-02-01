@@ -12,6 +12,7 @@ class MorePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final globalStore = context.watch<GlobalStore>();
     final themeStr = getThemeModeStr(globalStore.themeMode);
+    final versionStr = globalStore.version;
     final columnNumStr = getColumnNumStr(globalStore.columnNum);
     final imageNumStr = '${globalStore.latest.length} 套';
     final lastUpdateStr = getTimeStr(globalStore.lastUpdate);
@@ -27,7 +28,7 @@ class MorePage extends StatelessWidget {
         CupertinoListSection.insetGrouped(
           hasLeading: false,
           dividerMargin: 6,
-          header: Text('外观', style: smallText),
+          header: Text('设置', style: smallText),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           children: [
             CupertinoListTile(
@@ -53,14 +54,16 @@ class MorePage extends StatelessWidget {
           children: [
             CupertinoListTile(
               title: Text("图片数量", style: normalText),
-              onTap: () => {},
               additionalInfo: Text(imageNumStr, style: TextStyle(fontSize: 14)),
             ),
             CupertinoListTile(
               title: Text("最后更新", style: normalText),
-              onTap: () => {},
               additionalInfo:
                   Text(lastUpdateStr, style: TextStyle(fontSize: 14)),
+            ),
+            CupertinoListTile(
+              title: Text("版本", style: normalText),
+              additionalInfo: Text(versionStr, style: TextStyle(fontSize: 14)),
             ),
           ],
         ),
