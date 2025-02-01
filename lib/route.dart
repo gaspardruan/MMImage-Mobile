@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'models/image_suit.dart';
 import 'pages/album_detail_page.dart';
-import 'pages/main_page.dart';
+import 'root.dart';
 import 'pages/settings/setting_about_page.dart';
 import 'pages/settings/setting_column_page.dart';
 import 'pages/settings/setting_theme_page.dart';
@@ -19,7 +19,7 @@ class CustomRoute {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case mainPage:
-        return MaterialPageRoute(builder: (_) => MainPage());
+        return MaterialPageRoute(builder: (_) => RootPage());
       case viewPage:
         return MaterialPageRoute(
             builder: (_) => ViewPage(

@@ -3,20 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:mmimage_mobile/stores/colletion_store.dart';
 import 'package:provider/provider.dart';
 
-import '../stores/global_store.dart';
-import 'collection_page.dart';
-import 'latest_page.dart';
-import 'album_page.dart';
-import 'more_page.dart';
+import 'stores/global_store.dart';
+import 'pages/collection_page.dart';
+import 'pages/latest_page.dart';
+import 'pages/album_page.dart';
+import 'pages/more_page.dart';
 
-class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+class RootPage extends StatefulWidget {
+  const RootPage({super.key});
 
   @override
-  State<MainPage> createState() => _MainPageState();
+  State<RootPage> createState() => _RootPageState();
 }
 
-class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
+class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
   int _selectedIndex = 0;
 
   @override
