@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../stores/global_store.dart';
+import '../../store.dart';
 import 'setting_page.dart';
 
 class SettingThemePage extends StatelessWidget {

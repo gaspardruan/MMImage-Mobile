@@ -4,10 +4,10 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mmimage_mobile/store.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:provider/provider.dart';
 
-import '../stores/colletion_store.dart';
 import '../models/image_suit.dart';
 import '../utils.dart';
 
@@ -167,16 +167,16 @@ class LikeorDislikeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var collectionStore = context.watch<CollectionStore>();
+    var globalStore = context.watch<GlobalStore>();
     return IconButton(
       icon: Icon(
-        collectionStore.contains(imageSuit)
+        globalStore.contains(imageSuit)
             ? CupertinoIcons.heart_fill
             : CupertinoIcons.heart,
         color: Theme.of(context).colorScheme.onSurfaceVariant,
       ),
       onPressed: () {
-        collectionStore.toggle(imageSuit);
+        globalStore.toggle(imageSuit);
       },
     );
   }

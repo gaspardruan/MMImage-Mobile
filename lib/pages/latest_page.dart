@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../stores/global_store.dart';
+import '../store.dart';
 import '../widgets/image_grid.dart';
 
 class LatestPage extends StatelessWidget {

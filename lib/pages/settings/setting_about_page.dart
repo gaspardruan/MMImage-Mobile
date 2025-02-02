@@ -23,8 +23,8 @@ class SettingAboutPage extends StatelessWidget {
         footer: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-              '图片数据来自互联网，开发应用以学习使用，应用代码均开源在Github上，欢迎提出issue和建议。\n\n' +
-                  '如果觉得应用不错，Github上给个Star，也可以在B站上关注我，后续有时间会开发其他应用。',
+              '图片数据来自互联网，开发应用以学习使用，应用代码均开源在Github上，欢迎提出issue和建议。\n\n'
+              '如果觉得应用不错，Github上给个Star，也可以在B站上关注我，后续有时间会开发其他应用。',
               style: plainText),
         ),
         children: [

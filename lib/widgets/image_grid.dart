@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../models/image_suit.dart';
 import '../route.dart';
-import '../stores/global_store.dart';
+import '../store.dart';
 import '../utils.dart';
 
 class ImageGrid extends StatefulWidget {

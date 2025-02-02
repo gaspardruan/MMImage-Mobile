@@ -9,7 +9,7 @@ import 'pages/settings/setting_theme_page.dart';
 import 'pages/view_page.dart';
 
 class CustomRoute {
-  static const String mainPage = '/';
+  static const String rootPage = '/';
   static const String viewPage = '/view';
   static const String albumDetailPage = '/album_detail';
   static const String settingThemePage = '/setting_theme';
@@ -18,7 +18,7 @@ class CustomRoute {
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case mainPage:
+      case rootPage:
         return MaterialPageRoute(builder: (_) => RootPage());
       case viewPage:
         return MaterialPageRoute(

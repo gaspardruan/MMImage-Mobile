@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mmimage_mobile/stores/colletion_store.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 
-import 'stores/global_store.dart';
+import 'store.dart';
 import 'pages/collection_page.dart';
 import 'pages/latest_page.dart';
 import 'pages/album_page.dart';
@@ -35,7 +35,6 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.inactive ||
         state == AppLifecycleState.detached) {
-      context.read<CollectionStore>().save();
       context.read<GlobalStore>().save();
     }
   }
@@ -44,13 +43,49 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     var imageStore = context.watch<GlobalStore>();
 
+    // if (!imageStore.loaded) {
+    //   return Scaffold(
+    //     backgroundColor: Colors.white,
+    //     body: Center(
+    //       //     child: SizedBox(
+    //       //   width: 80,
+    //       //   height: 80,
+    //       //   child: LoadingIndicator(
+    //       //     indicatorType: Indicator.ballSpinFadeLoader,
+    //       //     // colors: [],
+    //       //   ),
+    //       // ),
+    //       child: Image.asset('assets/beauty.jpg',
+    //           fit: BoxFit.cover,
+    //           width: double.infinity,
+    //           height: double.infinity),
+    //     ),
+    //   );
+    // }
+
     if (!imageStore.loaded) {
-      return const Scaffold(
-        body: Center(
-          child: Icon(
-            CupertinoIcons.camera_fill,
-            size: 100,
-          ),
+      return Scaffold(
+        body: Stack(
+          children: [
+            Image.asset('assets/beauty.jpg',
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: double.infinity),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 60),
+                child: SizedBox(
+                  width: 60,
+                  height: 60,
+                  child: LoadingIndicator(
+                    indicatorType: Indicator.ballSpinFadeLoader,
+                    colors: [Colors.white],
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       );
     }

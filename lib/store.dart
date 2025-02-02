@@ -6,55 +6,35 @@ import 'package:mmimage_mobile/models/name_model.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/beauty_suit.dart';
-import '../models/image_suit.dart';
-import '../utils.dart';
+import 'models/beauty_suit.dart';
+import 'models/image_suit.dart';
+import 'utils.dart';
 
-const String _latestURL = 'http://43.143.5.32:1314/latest';
-const String _beautyURL = 'http://43.143.5.32:1314/beauty';
+const String _latestURL =
+    'https://gist.githubusercontent.com/gaspardruan/a6eca088981a25d9ea61ec50cf54b129/raw/latest.json';
 
-class GlobalPersistence {
-  static const String key = 'global';
-
-  static Future<Map<String, dynamic>> load() async {
-    final prefs = await SharedPreferences.getInstance();
-    final globalStr = prefs.getString(key);
-    if (globalStr == null) {
-      return {};
-    }
-
-    final json = jsonDecode(globalStr);
-    return {
-      'latest':
-          json['latest'].map<ImageSuit>((e) => ImageSuit.fromJson(e)).toList(),
-      'names':
-          json['names'].map<NameModel>((e) => NameModel.fromJson(e)).toList(),
-      'albums': json['albums'].map<String, ImageCollection>((key, value) =>
-          MapEntry(key as String, ImageCollection.fromJson(value))),
-      'tags': json['tags'].map<String>((e) => e as String).toList(),
-      'lastUpdate': DateTime.parse(json['lastUpdate']),
-    };
-  }
-
-  static Future<void> save(Map<String, dynamic> global) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(key, jsonEncode(global));
-  }
-}
+const String _beautyURL =
+    'https://gist.githubusercontent.com/gaspardruan/a6eca088981a25d9ea61ec50cf54b129/raw/latest.json';
 
 class GlobalStore extends ChangeNotifier {
-  // data
-  late List<ImageSuit> latest;
-  late List<NameModel> names;
-  late Map<String, ImageCollection> albums;
-  late List<String> tags;
+  // ------- need to be persisted -------
+  // image data
+  late List<ImageSuit> latest; // latest page
+  late List<NameModel> names; // album page
+  late Map<String, ImageCollection> albums; // album detail page
+  late List<String> tags; // album page
 
   // time
   DateTime lastUpdate = DateTime.fromMillisecondsSinceEpoch(0);
 
   // setting
-  ThemeMode themeMode = ThemeMode.dark;
+  ThemeMode themeMode = ThemeMode.system;
   int columnNum = 0;
+
+  // collection
+  Map<String, ImageSuit> collections = {};
+
+  // ------------------------------------
 
   // version
   String version = '0.0.0';
@@ -102,13 +82,26 @@ class GlobalStore extends ChangeNotifier {
   }
 
   Future<bool> updateFromLocal() async {
-    final global = await GlobalPersistence.load();
-    if (global.isEmpty) return false;
-    latest = global['latest'] ?? latest;
-    names = global['names'] ?? names;
-    albums = global['albums'] ?? albums;
-    tags = global['tags'] ?? tags;
-    lastUpdate = global['lastUpdate'] ?? lastUpdate;
+    final json = await GlobalPersistence.load();
+    if (json.isEmpty) return false;
+
+    latest =
+        json['latest'].map<ImageSuit>((e) => ImageSuit.fromJson(e)).toList() ??
+            latest;
+    names =
+        json['names'].map<NameModel>((e) => NameModel.fromJson(e)).toList() ??
+            names;
+    albums = json['albums'].map<String, ImageCollection>((key, value) =>
+            MapEntry(key as String, ImageCollection.fromJson(value))) ??
+        albums;
+    tags = json['tags'].map<String>((e) => e as String).toList() ?? tags;
+    lastUpdate = DateTime.parse(json['lastUpdate']);
+    themeMode = ThemeMode.values[json['themeMode'] ?? 0];
+    columnNum = json['columnNum'] ?? columnNum;
+    collections = json['collections'].map<String, ImageSuit>((key, value) =>
+            MapEntry(key as String, ImageSuit.fromJson(value))) ??
+        collections;
+
     return true;
   }
 
@@ -119,6 +112,10 @@ class GlobalStore extends ChangeNotifier {
       'albums': albums.map((key, value) => MapEntry(key, value.toJson())),
       'tags': tags,
       'lastUpdate': lastUpdate.toIso8601String(),
+      'themeMode': themeMode.index,
+      'columnNum': columnNum,
+      'collections':
+          collections.map((key, value) => MapEntry(key, value.toJson()))
     });
   }
 
@@ -129,6 +126,36 @@ class GlobalStore extends ChangeNotifier {
 
   void setColumnNum(int num) {
     columnNum = num;
+    notifyListeners();
+  }
+
+  bool contains(ImageSuit suit) {
+    return collections.containsKey(getId(suit));
+  }
+
+  void like(ImageSuit suit) {
+    final key = getId(suit);
+    if (!collections.containsKey(key)) {
+      collections[key] = suit;
+      notifyListeners();
+    }
+  }
+
+  void dislike(ImageSuit suit) {
+    final key = getId(suit);
+    if (collections.containsKey(key)) {
+      collections.remove(key);
+      notifyListeners();
+    }
+  }
+
+  void toggle(ImageSuit suit) {
+    final key = getId(suit);
+    if (collections.containsKey(key)) {
+      collections.remove(key);
+    } else {
+      collections[key] = suit;
+    }
     notifyListeners();
   }
 
@@ -167,5 +194,22 @@ class GlobalStore extends ChangeNotifier {
     }
     if (tags.length < rawTags.length) tags.add('#');
     return tags;
+  }
+}
+
+class GlobalPersistence {
+  static const String key = 'global';
+
+  static Future<Map<String, dynamic>> load() async {
+    final prefs = await SharedPreferences.getInstance();
+    final globalStr = prefs.getString(key);
+    if (globalStr == null) return {};
+
+    return jsonDecode(globalStr);
+  }
+
+  static Future<void> save(Map<String, dynamic> global) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(key, jsonEncode(global));
   }
 }

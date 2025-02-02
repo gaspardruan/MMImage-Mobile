@@ -8,21 +8,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import 'stores/colletion_store.dart';
-import 'stores/global_store.dart';
+import 'store.dart';
 import 'route.dart';
 
 void main() {
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(
-      create: (context) => GlobalStore(),
-      lazy: false,
-    ),
-    ChangeNotifierProvider(
-      create: (context) => CollectionStore(),
-      lazy: false,
-    ),
-  ], child: const MyApp()));
+  runApp(ChangeNotifierProvider(
+    create: (context) => GlobalStore(),
+    lazy: false,
+    child: const MyApp(),
+  ));
 
   // 仅允许竖屏
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -52,7 +46,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       onGenerateRoute: CustomRoute.generateRoute,
-      initialRoute: CustomRoute.mainPage,
+      initialRoute: CustomRoute.rootPage,
     );
   }
 }

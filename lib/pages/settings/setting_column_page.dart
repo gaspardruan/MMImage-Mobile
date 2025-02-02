@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mmimage_mobile/pages/settings/setting_page.dart';
 import 'package:provider/provider.dart';
 
-import '../../stores/global_store.dart';
+import '../../store.dart';
 
 class SettingColumnPage extends StatelessWidget {
   const SettingColumnPage({super.key});

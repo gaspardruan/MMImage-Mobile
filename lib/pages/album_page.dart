@@ -4,7 +4,7 @@ import 'package:mmimage_mobile/models/name_model.dart';
 import 'package:provider/provider.dart';
 
 import '../route.dart';
-import '../stores/global_store.dart';
+import '../store.dart';
 
 class AlbumPage extends StatelessWidget {
   const AlbumPage({super.key});

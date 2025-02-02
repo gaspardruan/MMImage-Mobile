@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mmimage_mobile/stores/global_store.dart';
+import 'package:mmimage_mobile/store.dart';
 import 'package:provider/provider.dart';
 
-import '../stores/colletion_store.dart';
 import '../widgets/image_grid.dart';
 
 class CollectionPage extends StatelessWidget {
@@ -11,11 +10,10 @@ class CollectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final collectionStore = context.watch<CollectionStore>();
     final globalStore = context.watch<GlobalStore>();
     final columnNum = globalStore.columnNum;
     final themeMode = globalStore.themeMode;
-    final images = collectionStore.collections.values.toList();
+    final images = globalStore.collections.values.toList();
     return SafeArea(
       child: images.isEmpty
           ? const EmptyCollection()

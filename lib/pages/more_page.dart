@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:mmimage_mobile/utils.dart';
 import 'package:provider/provider.dart';
 
-import '../stores/global_store.dart';
+import '../store.dart';
 
 class MorePage extends StatelessWidget {
   const MorePage({super.key});
