@@ -1,13 +1,14 @@
 import 'dart:collection';
 import 'dart:math';
+import 'dart:developer' as dev;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mmimage_mobile/store.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:provider/provider.dart';
 
+import '../store.dart';
 import '../models/image_suit.dart';
 import '../utils.dart';
 
@@ -31,7 +32,7 @@ class _ViewPageState extends State<ViewPage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_pageIndexNotifier.value == 0) {
-      _preloadImage(0, cacheStep);
+      _preloadImage(0, viewCacheStep);
     }
   }
 
@@ -128,7 +129,7 @@ class _ViewPageState extends State<ViewPage> {
       ),
       onPageChanged: (index) {
         if (index > _pageIndexNotifier.value) {
-          _preloadImage(index + cacheStep - 1);
+          _preloadImage(index + viewCacheStep - 1);
         }
         _pageIndexNotifier.value = index;
       },
@@ -167,16 +168,20 @@ class LikeorDislikeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var globalStore = context.watch<GlobalStore>();
+    dev.log("LikeorDislikeButton build");
+    final toggle = context.read<GlobalStore>().toggle;
+    final flag = context
+        .select<GlobalStore, Map<String, ImageSuit>>(
+            (store) => store.collections)
+        .containsKey(getId(imageSuit));
+
     return IconButton(
       icon: Icon(
-        globalStore.contains(imageSuit)
-            ? CupertinoIcons.heart_fill
-            : CupertinoIcons.heart,
+        flag ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
         color: Theme.of(context).colorScheme.onSurfaceVariant,
       ),
       onPressed: () {
-        globalStore.toggle(imageSuit);
+        toggle(imageSuit);
       },
     );
   }

@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../models/image_suit.dart';
 import '../store.dart';
 import '../widgets/image_grid.dart';
 
@@ -9,14 +12,19 @@ class LatestPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final globalStore = context.watch<GlobalStore>();
-    final columnNum = globalStore.columnNum;
-    final themeMode = globalStore.themeMode;
-    final images = globalStore.latest;
+    final columnNum =
+        context.select<GlobalStore, int>((store) => store.columnNum);
+    final images =
+        context.select<GlobalStore, List<ImageSuit>>((store) => store.latest);
+
+    log("LatestPage build");
+
+    // Without the key, the page will not be updated when the images change.
     return SafeArea(
         child: ImageGrid(
-            key: Key(
-                "Latest-${images.length}-$columnNum-${themeMode.toString()}"),
-            images: images));
+      key: Key("Latest-${images.length}"),
+      images: images,
+      columnNum: columnNum,
+    ));
   }
 }

@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:azlistview/azlistview.dart';
 import 'package:flutter/material.dart';
 import 'package:mmimage_mobile/models/name_model.dart';
 import 'package:provider/provider.dart';
 
+import '../models/beauty_suit.dart';
+import '../models/image_suit.dart';
 import '../route.dart';
 import '../store.dart';
 
@@ -11,10 +15,14 @@ class AlbumPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final imageStore = context.watch<GlobalStore>();
-    final names = imageStore.names;
-    final albums = imageStore.albums;
-    final tags = imageStore.tags;
+    final images =
+        context.select<GlobalStore, List<ImageSuit>>((store) => store.latest);
+    final names =
+        context.select<GlobalStore, List<NameModel>>((store) => store.names);
+    final albums = context.select<GlobalStore, Map<String, ImageCollection>>(
+        (store) => store.albums);
+    final tags =
+        context.select<GlobalStore, List<String>>((store) => store.tags);
 
     final nameStyle = TextStyle(color: Theme.of(context).colorScheme.onSurface);
     final numStyle = TextStyle(
@@ -25,9 +33,12 @@ class AlbumPage extends StatelessWidget {
         color: Theme.of(context).colorScheme.onSurfaceVariant);
     final borderColor = Theme.of(context).focusColor;
 
+    log("AlbumPage build");
+
     return SafeArea(
       minimum: EdgeInsets.only(left: 16),
       child: AzListView(
+        key: Key('Album-${images.length}'),
         data: names,
         itemCount: names.length,
         itemBuilder: (context, index) {
@@ -71,7 +82,6 @@ class AlbumPage extends StatelessWidget {
           );
         },
         susPosition: Offset.infinite,
-        susItemHeight: 45,
         indexBarWidth: 16,
         indexBarData: tags,
         indexBarOptions: IndexBarOptions(

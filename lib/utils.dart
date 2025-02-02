@@ -3,12 +3,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:mmimage_mobile/models/image_suit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+// const value
 const baseURL = 'http://newxiuren.com/uploadfiles/';
 const gihubHome = 'https://github.com/gaspardruan/MMImage-Mobile';
 const bilibiliHome = 'https://space.bilibili.com/470093851';
 const pageSize = 24;
-const cacheStep = 16;
+const viewCacheStep = 16;
 const coverCacheStep = 16;
+
+// ------- image data utils -------
 
 String getYearFromId(int id) {
   return id.toString().substring(0, 4);
@@ -39,6 +42,8 @@ bool shouldUpdate(DateTime lastUpdate) {
   return now.isAfter(oneClock) && lastUpdate.isBefore(oneClock) ||
       now.isBefore(oneClock) && lastUpdate.isBefore(yesterdayOncClock);
 }
+
+// ------- string utils -------
 
 String getThemeModeStr(ThemeMode themeMode) {
   switch (themeMode) {
@@ -74,6 +79,8 @@ Icon getThemeModeIcon(ThemeMode themeMode) {
       return const Icon(CupertinoIcons.moon_stars_fill);
   }
 }
+
+// ------- external url utils -------
 
 Future<void> launchURL(String url) async {
   if (!await launchUrl(Uri.parse(url), mode: LaunchMode.platformDefault)) {

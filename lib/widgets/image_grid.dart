@@ -3,18 +3,17 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../models/image_suit.dart';
 import '../route.dart';
-import '../store.dart';
 import '../utils.dart';
 
 class ImageGrid extends StatefulWidget {
-  ImageGrid({super.key, required this.images})
+  ImageGrid({super.key, required this.images, this.columnNum = 0})
       : _maxPage = (images.length / pageSize).ceil();
   final int _maxPage;
   final List<ImageSuit> images;
+  final int columnNum;
 
   @override
   State<ImageGrid> createState() => _ImageGridState();
@@ -50,8 +49,6 @@ class _ImageGridState extends State<ImageGrid> {
 
   @override
   Widget build(BuildContext context) {
-    final columnNum = context.watch<GlobalStore>().columnNum;
-
     return LayoutBuilder(builder: (context, constraints) {
       return SafeArea(
           child: Scrollbar(
@@ -61,8 +58,9 @@ class _ImageGridState extends State<ImageGrid> {
           padding: const EdgeInsets.all(8.0),
           itemCount: visibleImages.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount:
-                columnNum == 0 ? (constraints.maxWidth - 16) ~/ 160 : columnNum,
+            crossAxisCount: widget.columnNum == 0
+                ? (constraints.maxWidth - 16) ~/ 160
+                : widget.columnNum,
             mainAxisSpacing: 8,
             crossAxisSpacing: 8,
             childAspectRatio: 2 / 3,

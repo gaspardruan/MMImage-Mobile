@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mmimage_mobile/pages/settings/setting_page.dart';
-import 'package:mmimage_mobile/utils.dart';
+
+import 'setting_page.dart';
+import '../../utils.dart';
 
 class SettingAboutPage extends StatelessWidget {
   const SettingAboutPage({super.key});

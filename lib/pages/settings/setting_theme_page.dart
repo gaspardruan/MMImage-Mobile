@@ -10,8 +10,9 @@ class SettingThemePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final globalStore = context.watch<GlobalStore>();
-
+    final themeMode =
+        context.select<GlobalStore, ThemeMode>((store) => store.themeMode);
+    final setThemeMode = context.read<GlobalStore>().setThemeMode;
     final normalText =
         TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurface);
 
@@ -26,27 +27,27 @@ class SettingThemePage extends StatelessWidget {
             CupertinoListTile(
               title: Text("跟随系统", style: normalText),
               onTap: () {
-                globalStore.setThemeMode(ThemeMode.system);
+                setThemeMode(ThemeMode.system);
               },
-              trailing: globalStore.themeMode == ThemeMode.system
+              trailing: themeMode == ThemeMode.system
                   ? const Icon(CupertinoIcons.check_mark)
                   : null,
             ),
             CupertinoListTile(
               title: Text("浅色", style: normalText),
               onTap: () {
-                globalStore.setThemeMode(ThemeMode.light);
+                setThemeMode(ThemeMode.light);
               },
-              trailing: globalStore.themeMode == ThemeMode.light
+              trailing: themeMode == ThemeMode.light
                   ? const Icon(CupertinoIcons.check_mark)
                   : null,
             ),
             CupertinoListTile(
               title: Text("深色", style: normalText),
               onTap: () {
-                globalStore.setThemeMode(ThemeMode.dark);
+                setThemeMode(ThemeMode.dark);
               },
-              trailing: globalStore.themeMode == ThemeMode.dark
+              trailing: themeMode == ThemeMode.dark
                   ? const Icon(CupertinoIcons.check_mark)
                   : null,
             ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mmimage_mobile/store.dart';
 import 'package:provider/provider.dart';
 
+import '../models/image_suit.dart';
 import '../widgets/image_grid.dart';
 
 class CollectionPage extends StatelessWidget {
@@ -10,17 +11,23 @@ class CollectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final globalStore = context.watch<GlobalStore>();
-    final columnNum = globalStore.columnNum;
-    final themeMode = globalStore.themeMode;
-    final images = globalStore.collections.values.toList();
+    final columnNum =
+        context.select<GlobalStore, int>((store) => store.columnNum);
+    final images = context
+        .select<GlobalStore, Map<String, ImageSuit>>(
+            (store) => store.collections)
+        .values
+        .toList();
+
+    // Without the key, the page will not be updated when the images change.
     return SafeArea(
       child: images.isEmpty
           ? const EmptyCollection()
           : ImageGrid(
-              key: Key(
-                  'Collection-${images.length}-$columnNum-${themeMode.toString()}'),
-              images: images),
+              key: Key('Collection-${images.length}'),
+              images: images,
+              columnNum: columnNum,
+            ),
     );
   }
 }

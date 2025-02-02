@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:mmimage_mobile/utils.dart';
 import 'package:provider/provider.dart';
 
+import '../models/image_suit.dart';
+import '../route.dart';
 import '../store.dart';
 
 class MorePage extends StatelessWidget {
@@ -10,12 +12,16 @@ class MorePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final globalStore = context.watch<GlobalStore>();
-    final themeStr = getThemeModeStr(globalStore.themeMode);
-    final versionStr = globalStore.version;
-    final columnNumStr = getColumnNumStr(globalStore.columnNum);
-    final imageNumStr = '${globalStore.latest.length} 套';
-    final lastUpdateStr = getTimeStr(globalStore.lastUpdate);
+    final version =
+        context.select<GlobalStore, String>((store) => store.version);
+
+    final latest =
+        context.select<GlobalStore, List<ImageSuit>>((store) => store.latest);
+    final lastUpdate =
+        context.select<GlobalStore, DateTime>((store) => store.lastUpdate);
+
+    final imageNumStr = '${latest.length} 套';
+    final lastUpdateStr = getTimeStr(lastUpdate);
 
     final smallText =
         TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurface);
@@ -33,15 +39,16 @@ class MorePage extends StatelessWidget {
           children: [
             CupertinoListTile(
               title: Text("主题", style: normalText),
-              onTap: () => Navigator.pushNamed(context, '/setting_theme'),
-              additionalInfo: Text(themeStr, style: TextStyle(fontSize: 14)),
+              onTap: () =>
+                  Navigator.pushNamed(context, CustomRoute.settingThemePage),
+              additionalInfo: ThemeString(),
               trailing: const CupertinoListTileChevron(),
             ),
             CupertinoListTile(
               title: Text("列数", style: normalText),
-              onTap: () => Navigator.pushNamed(context, '/setting_column'),
-              additionalInfo:
-                  Text(columnNumStr, style: TextStyle(fontSize: 14)),
+              onTap: () =>
+                  Navigator.pushNamed(context, CustomRoute.settingColumnPage),
+              additionalInfo: ColumnString(),
               trailing: const CupertinoListTileChevron(),
             ),
           ],
@@ -63,7 +70,7 @@ class MorePage extends StatelessWidget {
             ),
             CupertinoListTile(
               title: Text("版本", style: normalText),
-              additionalInfo: Text(versionStr, style: TextStyle(fontSize: 14)),
+              additionalInfo: Text(version, style: TextStyle(fontSize: 14)),
             ),
           ],
         ),
@@ -76,7 +83,7 @@ class MorePage extends StatelessWidget {
             CupertinoListTile(
               title: Text("关于作者", style: normalText),
               onTap: () => {
-                Navigator.pushNamed(context, '/setting_about'),
+                Navigator.pushNamed(context, CustomRoute.settingAboutPage),
               },
               trailing: const CupertinoListTileChevron(),
             ),
@@ -84,5 +91,29 @@ class MorePage extends StatelessWidget {
         ),
       ],
     ));
+  }
+}
+
+class ColumnString extends StatelessWidget {
+  const ColumnString({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final columnNum =
+        context.select<GlobalStore, int>((store) => store.columnNum);
+    final columnNumStr = getColumnNumStr(columnNum);
+    return Text(columnNumStr, style: TextStyle(fontSize: 14));
+  }
+}
+
+class ThemeString extends StatelessWidget {
+  const ThemeString({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final themeMode =
+        context.select<GlobalStore, ThemeMode>((store) => store.themeMode);
+    final themeStr = getThemeModeStr(themeMode);
+    return Text(themeStr, style: TextStyle(fontSize: 14));
   }
 }

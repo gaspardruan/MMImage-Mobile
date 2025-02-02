@@ -5,7 +5,11 @@ import '../models/image_suit.dart';
 import '../widgets/image_grid.dart';
 
 class AlbumDetailPage extends StatelessWidget {
-  const AlbumDetailPage({super.key, required this.images, required this.name});
+  const AlbumDetailPage({
+    super.key,
+    required this.images,
+    required this.name,
+  });
 
   final List<ImageSuit> images;
   final String name;
@@ -29,13 +33,13 @@ class AlbumDetailPage extends StatelessWidget {
             SizedBox(
               width: 2,
             ),
-            Text(images.length.toString(),
-                style: TextStyle(
-                    fontSize: 9,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withAlpha(180))),
+            Text(
+              images.length.toString(),
+              style: TextStyle(
+                fontSize: 9,
+                color: Theme.of(context).colorScheme.onSurface.withAlpha(180),
+              ),
+            ),
           ],
         ),
         titleSpacing: 0,

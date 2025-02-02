@@ -41,29 +41,9 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    var imageStore = context.watch<GlobalStore>();
+    final loaded = context.select<GlobalStore, bool>((store) => store.loaded);
 
-    // if (!imageStore.loaded) {
-    //   return Scaffold(
-    //     backgroundColor: Colors.white,
-    //     body: Center(
-    //       //     child: SizedBox(
-    //       //   width: 80,
-    //       //   height: 80,
-    //       //   child: LoadingIndicator(
-    //       //     indicatorType: Indicator.ballSpinFadeLoader,
-    //       //     // colors: [],
-    //       //   ),
-    //       // ),
-    //       child: Image.asset('assets/beauty.jpg',
-    //           fit: BoxFit.cover,
-    //           width: double.infinity,
-    //           height: double.infinity),
-    //     ),
-    //   );
-    // }
-
-    if (!imageStore.loaded) {
+    if (!loaded) {
       return Scaffold(
         body: Stack(
           children: [

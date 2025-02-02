@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mmimage_mobile/pages/settings/setting_page.dart';
 import 'package:provider/provider.dart';
 
+import 'setting_page.dart';
 import '../../store.dart';
 
 class SettingColumnPage extends StatelessWidget {
@@ -14,6 +14,7 @@ class SettingColumnPage extends StatelessWidget {
         context.select<GlobalStore, int>((store) => store.columnNum);
     final normalText =
         TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurface);
+
     return SettingPage(
         title: '列数',
         child: SafeArea(
