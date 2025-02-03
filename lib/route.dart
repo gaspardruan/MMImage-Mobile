@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'models/image_suit.dart';
 import 'pages/album_detail_page.dart';
-import 'root.dart';
 import 'pages/settings/setting_about_page.dart';
 import 'pages/settings/setting_column_page.dart';
 import 'pages/settings/setting_theme_page.dart';
 import 'pages/view_page.dart';
+import 'root.dart';
 
 class CustomRoute {
   static const String rootPage = '/';

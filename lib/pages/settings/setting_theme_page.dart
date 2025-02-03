@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../store.dart';
 import 'setting_page.dart';
+import '../../store.dart';
 
 class SettingThemePage extends StatelessWidget {
   const SettingThemePage({super.key});
@@ -13,8 +13,10 @@ class SettingThemePage extends StatelessWidget {
     final themeMode =
         context.select<GlobalStore, ThemeMode>((store) => store.themeMode);
     final setThemeMode = context.read<GlobalStore>().setThemeMode;
-    final normalText =
-        TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurface);
+    final sectionItem = Theme.of(context)
+        .textTheme
+        .bodyLarge!
+        .copyWith(fontWeight: FontWeight.w600);
 
     return SettingPage(
         title: '主题',
@@ -25,7 +27,7 @@ class SettingThemePage extends StatelessWidget {
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           children: [
             CupertinoListTile(
-              title: Text("跟随系统", style: normalText),
+              title: Text('跟随系统', style: sectionItem),
               onTap: () {
                 setThemeMode(ThemeMode.system);
               },
@@ -34,7 +36,7 @@ class SettingThemePage extends StatelessWidget {
                   : null,
             ),
             CupertinoListTile(
-              title: Text("浅色", style: normalText),
+              title: Text('浅色', style: sectionItem),
               onTap: () {
                 setThemeMode(ThemeMode.light);
               },
@@ -43,7 +45,7 @@ class SettingThemePage extends StatelessWidget {
                   : null,
             ),
             CupertinoListTile(
-              title: Text("深色", style: normalText),
+              title: Text('深色', style: sectionItem),
               onTap: () {
                 setThemeMode(ThemeMode.dark);
               },

@@ -12,8 +12,10 @@ class SettingColumnPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final columnNum =
         context.select<GlobalStore, int>((store) => store.columnNum);
-    final normalText =
-        TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurface);
+    final sectionItem = Theme.of(context)
+        .textTheme
+        .bodyLarge!
+        .copyWith(fontWeight: FontWeight.w600);
 
     return SettingPage(
         title: '列数',
@@ -25,14 +27,12 @@ class SettingColumnPage extends StatelessWidget {
           children: [
             for (var i = 0; i <= 4; i++)
               CupertinoListTile(
-                title: Text(i == 0 ? '自动' : i.toString(), style: normalText),
-                onTap: () {
-                  context.read<GlobalStore>().setColumnNum(i);
-                },
+                title: Text(i == 0 ? '自动' : i.toString(), style: sectionItem),
+                onTap: () => context.read<GlobalStore>().setColumnNum(i),
                 trailing: columnNum == i
                     ? const Icon(CupertinoIcons.check_mark)
                     : null,
-              ),
+              )
           ],
         )));
   }

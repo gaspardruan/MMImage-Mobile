@@ -1,6 +1,5 @@
 import 'dart:collection';
 import 'dart:math';
-import 'dart:developer' as dev;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:provider/provider.dart';
 
-import '../store.dart';
 import '../models/image_suit.dart';
+import '../store.dart';
 import '../utils.dart';
 
 class ViewPage extends StatefulWidget {
@@ -101,13 +100,11 @@ class _ViewPageState extends State<ViewPage> {
         elevation: 3,
         toolbarOpacity: 0.6,
         toolbarHeight: 48,
-        iconTheme: IconThemeData(
-          color: Theme.of(context).colorScheme.onSurfaceVariant,
-          size: 20,
-        ),
         leading: IconButton(
-          icon: const Icon(CupertinoIcons.back),
-          onPressed: () => Navigator.pop(context),
+          icon: Icon(CupertinoIcons.back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         actions: [
           LikeorDislikeButton(imageSuit: widget.imageSuit),
@@ -154,9 +151,8 @@ class PageNumLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 4),
-      child: Text("${page + 1} / $total",
-          style: TextStyle(
-              fontSize: 10, color: Theme.of(context).colorScheme.onSurface)),
+      child: Text('${page + 1} / $total',
+          style: Theme.of(context).textTheme.labelMedium),
     );
   }
 }
@@ -168,7 +164,6 @@ class LikeorDislikeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    dev.log("LikeorDislikeButton build");
     final toggle = context.read<GlobalStore>().toggle;
     final flag = context
         .select<GlobalStore, Map<String, ImageSuit>>(
@@ -178,7 +173,7 @@ class LikeorDislikeButton extends StatelessWidget {
     return IconButton(
       icon: Icon(
         flag ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
-        color: Theme.of(context).colorScheme.onSurfaceVariant,
+        // color: Theme.of(context).colorScheme.onSurfaceVariant,
       ),
       onPressed: () {
         toggle(imageSuit);

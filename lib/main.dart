@@ -37,15 +37,16 @@ class MyApp extends StatelessWidget {
       themeMode: themeMode,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.pink, brightness: Brightness.light),
-        useMaterial3: true,
-        textTheme: TextTheme(
-          labelMedium: TextStyle(height: 0.5, fontSize: 10),
+          seedColor: Colors.blue,
+          brightness: Brightness.light,
         ),
+        useMaterial3: true,
       ),
       darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.pink, brightness: Brightness.dark),
+          seedColor: Colors.blue,
+          brightness: Brightness.dark,
+        ),
         useMaterial3: true,
       ),
       onGenerateRoute: CustomRoute.generateRoute,

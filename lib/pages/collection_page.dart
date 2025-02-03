@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mmimage_mobile/store.dart';
 import 'package:provider/provider.dart';
 
+import '../store.dart';
 import '../models/image_suit.dart';
 import '../widgets/image_grid.dart';
 

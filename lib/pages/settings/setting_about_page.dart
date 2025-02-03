@@ -9,12 +9,15 @@ class SettingAboutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final normalText =
-        TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurface);
+    final sectionItem = Theme.of(context)
+        .textTheme
+        .bodyLarge!
+        .copyWith(fontWeight: FontWeight.w600);
     final plainText = TextStyle(
         letterSpacing: 1,
         fontSize: 12,
         color: Theme.of(context).colorScheme.onSurface.withAlpha(180));
+
     return SettingPage(
       title: '关于作者',
       child: CupertinoListSection.insetGrouped(
@@ -30,12 +33,12 @@ class SettingAboutPage extends StatelessWidget {
         ),
         children: [
           CupertinoListTile(
-            title: Text('Github主页', style: normalText),
+            title: Text('Github主页', style: sectionItem),
             trailing: const CupertinoListTileChevron(),
             onTap: () => goGithubHome(),
           ),
           CupertinoListTile(
-            title: Text('Bilibili主页', style: normalText),
+            title: Text('Bilibili主页', style: sectionItem),
             trailing: const CupertinoListTileChevron(),
             onTap: () => goBilibiliHome(),
           ),

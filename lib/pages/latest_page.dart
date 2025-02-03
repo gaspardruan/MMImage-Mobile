@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,12 +15,10 @@ class LatestPage extends StatelessWidget {
     final images =
         context.select<GlobalStore, List<ImageSuit>>((store) => store.latest);
 
-    log("LatestPage build");
-
     // Without the key, the page will not be updated when the images change.
     return SafeArea(
         child: ImageGrid(
-      key: Key("Latest-${images.length}"),
+      key: Key('Latest-${images.length}'),
       images: images,
       columnNum: columnNum,
     ));

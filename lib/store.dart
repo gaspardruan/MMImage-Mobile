@@ -2,18 +2,18 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:mmimage_mobile/models/name_model.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'models/name_model.dart';
 import 'models/beauty_suit.dart';
 import 'models/image_suit.dart';
 import 'utils.dart';
 
-const String _latestURL = "http://43.143.5.32:1314/latest";
+const String _latestURL = 'http://43.143.5.32:1314/latest';
 // 'https://gist.githubusercontent.com/gaspardruan/a6eca088981a25d9ea61ec50cf54b129/raw/latest.json';
 
-const String _beautyURL = "http://43.143.5.32:1314/beauty";
+const String _beautyURL = 'http://43.143.5.32:1314/beauty';
 // 'https://gist.githubusercontent.com/gaspardruan/a6eca088981a25d9ea61ec50cf54b129/raw/beauty.json';
 
 class GlobalStore extends ChangeNotifier {

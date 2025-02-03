@@ -105,21 +105,6 @@ class _ImageGridState extends State<ImageGrid> {
     );
   }
 
-  // when hit the bottom of the gridview, load more images
-  // ScrollController get _getScrollController {
-  //   _scrollController = ScrollController();
-  //   _scrollController.addListener(() {
-  //     if (controller.position.pixels == controller.position.maxScrollExtent &&
-  //         _page + 1 < widget._maxPage) {
-  //       setState(() {
-  //         _page++;
-  //         visibleImages.addAll(_newPage);
-  //       });
-  //     }
-  //   });
-  //   return controller;
-  // }
-
   Iterable<String> get _newPage {
     var start = _page * pageSize;
     var end = min((_page + 1) * pageSize, widget.images.length);
