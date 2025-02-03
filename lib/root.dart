@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_indicator/loading_indicator.dart';
@@ -42,6 +44,7 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     final loaded = context.select<GlobalStore, bool>((store) => store.loaded);
+    log("message: $loaded");
 
     if (!loaded) {
       return Scaffold(
@@ -87,23 +90,23 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
     );
   }
 
-  NavigationBarTheme _bottomNavigationBar() {
+  Widget _bottomNavigationBar() {
     return NavigationBarTheme(
       data: NavigationBarThemeData(
         labelTextStyle: WidgetStateProperty.all(
-          const TextStyle(
-            height: 0.8,
-            fontSize: 8,
+          TextStyle(
+            height: 0.5,
+            fontSize: 10,
           ),
         ),
       ),
       child: NavigationBar(
         selectedIndex: _selectedIndex,
-        height: 70,
+        height: 50,
         destinations: [
           const NavigationDestination(
             icon: Icon(CupertinoIcons.square_grid_2x2_fill),
-            label: '最新',
+            label: '新发现',
           ),
           const NavigationDestination(
             icon: Icon(CupertinoIcons.collections_solid),

@@ -24,6 +24,9 @@ class _ImageGridState extends State<ImageGrid> {
   final List<String> visibleImages = [];
   final HashSet<int> _cachedIndexes = HashSet<int>();
 
+  final _scrollController = ScrollController();
+  
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -31,6 +34,15 @@ class _ImageGridState extends State<ImageGrid> {
       visibleImages.addAll(_newPage);
     }
     _preloadImage(_page * pageSize, coverCacheStep);
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent &&
+          _page + 1 < widget._maxPage) {
+        setState(() {
+          _page++;
+          visibleImages.addAll(_newPage);
+        });
+      }
+    });
   }
 
   void _preloadImage(int start, [int len = 1]) {
@@ -48,10 +60,18 @@ class _ImageGridState extends State<ImageGrid> {
   }
 
   @override
+  void dispose() {
+    _cachedIndexes.clear();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return SafeArea(
           child: Scrollbar(
+            controller: _scrollController,
         radius: const Radius.circular(2),
         child: GridView.builder(
           controller: _scrollController,
@@ -86,19 +106,19 @@ class _ImageGridState extends State<ImageGrid> {
   }
 
   // when hit the bottom of the gridview, load more images
-  ScrollController get _scrollController {
-    var controller = ScrollController();
-    controller.addListener(() {
-      if (controller.position.pixels == controller.position.maxScrollExtent &&
-          _page + 1 < widget._maxPage) {
-        setState(() {
-          _page++;
-          visibleImages.addAll(_newPage);
-        });
-      }
-    });
-    return controller;
-  }
+  // ScrollController get _getScrollController {
+  //   _scrollController = ScrollController();
+  //   _scrollController.addListener(() {
+  //     if (controller.position.pixels == controller.position.maxScrollExtent &&
+  //         _page + 1 < widget._maxPage) {
+  //       setState(() {
+  //         _page++;
+  //         visibleImages.addAll(_newPage);
+  //       });
+  //     }
+  //   });
+  //   return controller;
+  // }
 
   Iterable<String> get _newPage {
     var start = _page * pageSize;

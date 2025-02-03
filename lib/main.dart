@@ -39,6 +39,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.pink, brightness: Brightness.light),
         useMaterial3: true,
+        textTheme: TextTheme(
+          labelMedium: TextStyle(height: 0.5, fontSize: 10),
+        ),
       ),
       darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
