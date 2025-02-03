@@ -17,7 +17,6 @@ class SettingPage extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(title, style: Theme.of(context).textTheme.titleMedium),
-        titleSpacing: 0,
       ),
       body: child,
     );
