@@ -1,4 +1,4 @@
-package com.example.mmimage_mobile
+package com.gaspardruan.mmimage
 
 import io.flutter.embedding.android.FlutterActivity
 
