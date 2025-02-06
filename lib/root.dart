@@ -95,11 +95,11 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
       )),
       child: NavigationBar(
         selectedIndex: _selectedIndex,
-        height: 50,
+        height: 60,
         destinations: [
           const NavigationDestination(
             icon: Icon(CupertinoIcons.square_grid_2x2_fill, size: 28),
-            label: '新发现',
+            label: '最新',
           ),
           const NavigationDestination(
             icon: Icon(CupertinoIcons.collections_solid, size: 28),

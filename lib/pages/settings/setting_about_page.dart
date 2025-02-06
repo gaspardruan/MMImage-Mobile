@@ -12,7 +12,7 @@ class SettingAboutPage extends StatelessWidget {
     final sectionItem = Theme.of(context)
         .textTheme
         .bodyLarge!
-        .copyWith(fontWeight: FontWeight.w600);
+        .copyWith(fontWeight: FontWeight.w500);
     final plainText = TextStyle(
         letterSpacing: 1,
         fontSize: 12,

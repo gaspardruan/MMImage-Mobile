@@ -26,7 +26,7 @@ class MorePage extends StatelessWidget {
     final sectionItem = Theme.of(context)
         .textTheme
         .bodyLarge!
-        .copyWith(fontWeight: FontWeight.w600);
+        .copyWith(fontWeight: FontWeight.w500);
     final backgroundColor = Theme.of(context).scaffoldBackgroundColor;
     final fontLarge = const TextStyle(fontSize: 16);
 

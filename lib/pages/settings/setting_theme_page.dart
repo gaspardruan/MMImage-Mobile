@@ -16,7 +16,7 @@ class SettingThemePage extends StatelessWidget {
     final sectionItem = Theme.of(context)
         .textTheme
         .bodyLarge!
-        .copyWith(fontWeight: FontWeight.w600);
+        .copyWith(fontWeight: FontWeight.w500);
 
     return SettingPage(
         title: '主题',
