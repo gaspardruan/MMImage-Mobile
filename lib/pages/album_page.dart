@@ -36,46 +36,51 @@ class AlbumPage extends StatelessWidget {
         itemCount: names.length,
         itemBuilder: (context, index) {
           final NameModel nameItem = names[index];
-          return ListTile(
-            title: Row(
-              children: [
-                Text(nameItem.name,
-                    style: Theme.of(context).textTheme.bodyLarge),
-                const SizedBox(
-                  width: 2,
+          return Column(
+            children: [
+              Offstage(
+                  offstage: nameItem.isShowSuspension != true,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(width: 0.5, color: borderColor),
+                      ),
+                    ),
+                    height: 45,
+                    child: Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Text(nameItem.getSuspensionTag(),
+                          style: Theme.of(context).textTheme.titleMedium),
+                    ),
+                  )),
+              ListTile(
+                title: Row(
+                  children: [
+                    Text(nameItem.name,
+                        style: Theme.of(context).textTheme.bodyLarge),
+                    const SizedBox(
+                      width: 2,
+                    ),
+                    Text(albums[nameItem.name]!.num.toString(),
+                        style: numStyle),
+                  ],
                 ),
-                Text(albums[nameItem.name]!.num.toString(), style: numStyle),
-              ],
-            ),
-            contentPadding: EdgeInsets.zero,
-            dense: true,
-            visualDensity: VisualDensity.compact,
-            shape: Border(bottom: BorderSide(width: 0.5, color: borderColor)),
-            onTap: () {
-              Navigator.of(context).pushNamed(CustomRoute.albumDetailPage,
-                  arguments: (
-                    name: nameItem.name,
-                    images: albums[nameItem.name]!.suits
-                  ));
-            },
-          );
-        },
-        susItemBuilder: (context, index) {
-          final String tag = names[index].getSuspensionTag();
-          return Container(
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(width: 0.5, color: borderColor),
+                contentPadding: EdgeInsets.zero,
+                dense: true,
+                visualDensity: VisualDensity.compact,
+                shape:
+                    Border(bottom: BorderSide(width: 0.5, color: borderColor)),
+                onTap: () {
+                  Navigator.of(context).pushNamed(CustomRoute.albumDetailPage,
+                      arguments: (
+                        name: nameItem.name,
+                        images: albums[nameItem.name]!.suits
+                      ));
+                },
               ),
-            ),
-            height: 45,
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: Text(tag, style: Theme.of(context).textTheme.titleMedium),
-            ),
+            ],
           );
         },
-        susPosition: Offset.infinite,
         indexBarWidth: 16,
         indexBarData: tags,
         indexBarOptions: IndexBarOptions(
