@@ -11,11 +11,11 @@ import 'models/beauty_suit.dart';
 import 'models/image_suit.dart';
 import 'utils.dart';
 
-const String _latestURL = 'http://43.143.5.32:1314/latest';
-// 'https://gist.githubusercontent.com/gaspardruan/a6eca088981a25d9ea61ec50cf54b129/raw/latest.json';
+const String _latestURL =
+    'https://gist.githubusercontent.com/gaspardruan/a6eca088981a25d9ea61ec50cf54b129/raw/latest.json';
 
-const String _beautyURL = 'http://43.143.5.32:1314/beauty';
-// 'https://gist.githubusercontent.com/gaspardruan/a6eca088981a25d9ea61ec50cf54b129/raw/beauty.json';
+const String _beautyURL =
+    'https://gist.githubusercontent.com/gaspardruan/a6eca088981a25d9ea61ec50cf54b129/raw/beauty.json';
 
 class GlobalStore extends ChangeNotifier {
   // ------- need to be persisted -------

@@ -4,7 +4,7 @@
   "album": "Album",
   "collection": "Collection",
   "more": "More",
-  "empty_message": "Collect to view conveniently",
+  "emptyMessage": "Collect to view conveniently",
   "setting": "Setting",
   "data": "Data",
   "about": "About",
@@ -20,5 +20,7 @@
   "auto": "Auto",
   "github": "Github",
   "bilibili": "Bilibili",
-  "declaration": "Data come from the network, develop for learning only, code is shared on Github, welcome to issue. \n\nIf you feel good, feel free to star on Github and follow on Bilibili."
+  "declaration": "Data come from the network, develop for learning only, code is shared on Github, welcome to issue. \n\nIf you feel good, feel free to star on Github and follow on Bilibili.",
+  "noInternet": "No Internet",
+  "noInternetHelp": "App has no internet. Please set internet permission or connection in Settings and relaunch."
 }

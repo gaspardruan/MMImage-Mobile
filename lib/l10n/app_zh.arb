@@ -4,7 +4,7 @@
   "album": "合集",
   "collection": "收藏",
   "more": "更多",
-  "empty_message": "收藏喜欢的套图以快速浏览",
+  "emptyMessage": "收藏喜欢的套图以快速浏览",
   "setting": "设置",
   "data": "数据",
   "about": "作者",
@@ -20,5 +20,7 @@
   "auto": "自动",
   "github": "Github主页",
   "bilibili": "Bilibili主页",
-  "declaration": "图片数据来自互联网，开发应用以学习使用，应用代码均开源在Github上，欢迎提出issue和建议。\n\n如果觉得应用不错，Github上给个Star，也可以在B站上关注我，后续有时间会开发其他应用。"
+  "declaration": "图片数据来自互联网，开发应用以学习使用，应用代码均开源在Github上，欢迎提出issue和建议。\n\n如果觉得应用不错，Github上给个Star，也可以在B站上关注我，后续有时间会开发其他应用。",
+  "noInternet": "无互联网连接",
+  "noInternetHelp": "应用未接入互联网，请在设置中打开网络权限或检查网络连接，然后重启应用。"
 }

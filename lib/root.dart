@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -9,6 +8,7 @@ import 'pages/collection_page.dart';
 import 'pages/latest_page.dart';
 import 'pages/album_page.dart';
 import 'pages/more_page.dart';
+import 'utils.dart';
 
 class RootPage extends StatefulWidget {
   const RootPage({super.key});
@@ -56,14 +56,7 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 60),
-                child: SizedBox(
-                  width: 60,
-                  height: 60,
-                  child: LoadingIndicator(
-                    indicatorType: Indicator.ballSpinFadeLoader,
-                    colors: [Colors.white],
-                  ),
-                ),
+                child: InternetIndicator(),
               ),
             ),
           ],
@@ -121,6 +114,59 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
           });
         },
       ),
+    );
+  }
+}
+
+class InternetIndicator extends StatefulWidget {
+  const InternetIndicator({super.key});
+
+  @override
+  State<InternetIndicator> createState() => _InternetIndicatorState();
+}
+
+class _InternetIndicatorState extends State<InternetIndicator> {
+  final ValueNotifier<bool> _canAccessInternet = ValueNotifier(true);
+
+  @override
+  void initState() {
+    super.initState();
+    canAccessInternet().then((res) => _canAccessInternet.value = res);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<bool>(
+      valueListenable: _canAccessInternet,
+      builder: (context, canAccessInternet, child) {
+        return canAccessInternet
+            ? CupertinoActivityIndicator(
+                animating: true,
+                radius: 25,
+                color: Colors.white,
+              )
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(AppLocalizations.of(context)!.noInternet,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 3),
+                  SizedBox(
+                    width: 290,
+                    child: Text(
+                      AppLocalizations.of(context)!.noInternetHelp,
+                      style:
+                          const TextStyle(color: Colors.white70, fontSize: 14),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              );
+      },
     );
   }
 }

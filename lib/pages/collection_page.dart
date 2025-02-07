@@ -45,7 +45,7 @@ class EmptyCollection extends StatelessWidget {
         Icon(CupertinoIcons.heart,
             size: 50, color: Theme.of(context).hintColor),
         SizedBox(height: 20),
-        Text(AppLocalizations.of(context)!.empty_message,
+        Text(AppLocalizations.of(context)!.emptyMessage,
             style: Theme.of(context).textTheme.bodyLarge),
       ],
     ));

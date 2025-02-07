@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
 
 import 'models/image_suit.dart';
 
@@ -76,4 +77,15 @@ void goGithubHome() {
 
 void goBilibiliHome() {
   launchURL(bilibiliHome);
+}
+
+Future<bool> canAccessInternet() async {
+  try {
+    final reponse = await http
+        .get(Uri.parse('https://www.baidu.com'))
+        .timeout(const Duration(seconds: 5));
+    return reponse.statusCode == 200;
+  } catch (e) {
+    return false;
+  }
 }
