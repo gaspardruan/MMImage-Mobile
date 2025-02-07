@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -89,7 +88,7 @@ class GlobalStore extends ChangeNotifier {
     tags = _extractTags(beauty.names.keys.toList());
     albums = beauty.collections;
 
-    lastUpdate = DateTime(2025, 2, 7);
+    lastUpdate = DateTime(2025, 2, 7, 22);
     loaded = true;
     notifyListeners();
   }
