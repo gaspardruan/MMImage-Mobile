@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../models/image_suit.dart';
@@ -107,6 +108,11 @@ class _ImageGridState extends State<ImageGrid> {
             padding: const EdgeInsets.only(left: 16.0, right: 16.0),
             child: Text('加载错误，请重启应用', textAlign: TextAlign.center),
           ));
+        },
+        placeholder: (context, url) {
+          return Center(
+            child: const CupertinoActivityIndicator(),
+          );
         },
       ),
     );
