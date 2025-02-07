@@ -25,7 +25,6 @@ class _ImageGridState extends State<ImageGrid> {
   final HashSet<int> _cachedIndexes = HashSet<int>();
 
   final _scrollController = ScrollController();
-  
 
   @override
   void didChangeDependencies() {
@@ -35,7 +34,8 @@ class _ImageGridState extends State<ImageGrid> {
     }
     _preloadImage(_page * pageSize, coverCacheStep);
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent &&
+      if (_scrollController.position.pixels ==
+              _scrollController.position.maxScrollExtent &&
           _page + 1 < widget._maxPage) {
         setState(() {
           _page++;
@@ -71,7 +71,7 @@ class _ImageGridState extends State<ImageGrid> {
     return LayoutBuilder(builder: (context, constraints) {
       return SafeArea(
           child: Scrollbar(
-            controller: _scrollController,
+        controller: _scrollController,
         radius: const Radius.circular(2),
         child: GridView.builder(
           controller: _scrollController,
@@ -101,6 +101,13 @@ class _ImageGridState extends State<ImageGrid> {
       child: CachedNetworkImage(
         imageUrl: visibleImages[index],
         fadeInDuration: const Duration(milliseconds: 250),
+        errorWidget: (context, url, error) {
+          return Center(
+              child: Padding(
+            padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+            child: Text('加载错误，请重启应用', textAlign: TextAlign.center),
+          ));
+        },
       ),
     );
   }
