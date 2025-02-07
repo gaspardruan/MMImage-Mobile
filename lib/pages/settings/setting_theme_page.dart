@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'setting_page.dart';
 import '../../store.dart';
@@ -19,7 +20,7 @@ class SettingThemePage extends StatelessWidget {
         .copyWith(fontWeight: FontWeight.w500);
 
     return SettingPage(
-        title: '主题',
+        title: AppLocalizations.of(context)!.theme,
         child: SafeArea(
             child: CupertinoListSection.insetGrouped(
           hasLeading: false,
@@ -27,7 +28,8 @@ class SettingThemePage extends StatelessWidget {
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           children: [
             CupertinoListTile(
-              title: Text('跟随系统', style: sectionItem),
+              title: Text(AppLocalizations.of(context)!.system,
+                  style: sectionItem),
               onTap: () {
                 setThemeMode(ThemeMode.system);
               },
@@ -36,7 +38,8 @@ class SettingThemePage extends StatelessWidget {
                   : null,
             ),
             CupertinoListTile(
-              title: Text('浅色', style: sectionItem),
+              title:
+                  Text(AppLocalizations.of(context)!.light, style: sectionItem),
               onTap: () {
                 setThemeMode(ThemeMode.light);
               },
@@ -45,7 +48,8 @@ class SettingThemePage extends StatelessWidget {
                   : null,
             ),
             CupertinoListTile(
-              title: Text('深色', style: sectionItem),
+              title:
+                  Text(AppLocalizations.of(context)!.dark, style: sectionItem),
               onTap: () {
                 setThemeMode(ThemeMode.dark);
               },

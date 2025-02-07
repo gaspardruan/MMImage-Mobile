@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'setting_page.dart';
 import '../../store.dart';
@@ -18,7 +19,7 @@ class SettingColumnPage extends StatelessWidget {
         .copyWith(fontWeight: FontWeight.w500);
 
     return SettingPage(
-        title: '列数',
+        title: AppLocalizations.of(context)!.column,
         child: SafeArea(
             child: CupertinoListSection.insetGrouped(
           hasLeading: false,
@@ -27,7 +28,9 @@ class SettingColumnPage extends StatelessWidget {
           children: [
             for (var i = 0; i <= 4; i++)
               CupertinoListTile(
-                title: Text(i == 0 ? '自动' : i.toString(), style: sectionItem),
+                title: Text(
+                    i == 0 ? AppLocalizations.of(context)!.auto : i.toString(),
+                    style: sectionItem),
                 onTap: () => context.read<GlobalStore>().setColumnNum(i),
                 trailing: columnNum == i
                     ? const Icon(CupertinoIcons.check_mark)

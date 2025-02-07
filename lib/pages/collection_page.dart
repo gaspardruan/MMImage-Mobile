@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../store.dart';
 import '../models/image_suit.dart';
@@ -44,7 +45,8 @@ class EmptyCollection extends StatelessWidget {
         Icon(CupertinoIcons.heart,
             size: 50, color: Theme.of(context).hintColor),
         SizedBox(height: 20),
-        Text('收藏喜欢的套图以快速浏览', style: Theme.of(context).textTheme.bodyLarge),
+        Text(AppLocalizations.of(context)!.empty_message,
+            style: Theme.of(context).textTheme.bodyLarge),
       ],
     ));
   }

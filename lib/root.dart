@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'store.dart';
 import 'pages/collection_page.dart';
@@ -97,21 +98,21 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
         selectedIndex: _selectedIndex,
         height: 60,
         destinations: [
-          const NavigationDestination(
+          NavigationDestination(
             icon: Icon(CupertinoIcons.square_grid_2x2_fill, size: 28),
-            label: '最新',
+            label: AppLocalizations.of(context)!.latest,
           ),
-          const NavigationDestination(
+          NavigationDestination(
             icon: Icon(CupertinoIcons.collections_solid, size: 28),
-            label: '合集',
+            label: AppLocalizations.of(context)!.album,
           ),
-          const NavigationDestination(
+          NavigationDestination(
             icon: Icon(CupertinoIcons.heart_fill, size: 28),
-            label: '收藏',
+            label: AppLocalizations.of(context)!.collection,
           ),
-          const NavigationDestination(
+          NavigationDestination(
             icon: Icon(CupertinoIcons.ellipsis_circle_fill, size: 28),
-            label: '更多',
+            label: AppLocalizations.of(context)!.more,
           ),
         ],
         onDestinationSelected: (index) {

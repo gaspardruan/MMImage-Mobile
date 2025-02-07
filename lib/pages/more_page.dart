@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../models/image_suit.dart';
 import '../route.dart';
@@ -19,7 +20,7 @@ class MorePage extends StatelessWidget {
     final lastUpdate =
         context.select<GlobalStore, DateTime>((store) => store.lastUpdate);
 
-    final imageNumStr = '${latest.length} 套';
+    final imageNumStr = '${latest.length}';
     final lastUpdateStr = getTimeStr(lastUpdate);
 
     final sectionHeader = Theme.of(context).textTheme.labelMedium;
@@ -36,18 +37,21 @@ class MorePage extends StatelessWidget {
         CupertinoListSection.insetGrouped(
           hasLeading: false,
           dividerMargin: 6,
-          header: Text('设置', style: sectionHeader),
+          header:
+              Text(AppLocalizations.of(context)!.setting, style: sectionHeader),
           backgroundColor: backgroundColor,
           children: [
             CupertinoListTile(
-              title: Text('主题', style: sectionItem),
+              title:
+                  Text(AppLocalizations.of(context)!.theme, style: sectionItem),
               onTap: () =>
                   Navigator.pushNamed(context, CustomRoute.settingThemePage),
               additionalInfo: ThemeString(),
               trailing: const CupertinoListTileChevron(),
             ),
             CupertinoListTile(
-              title: Text('列数', style: sectionItem),
+              title: Text(AppLocalizations.of(context)!.column,
+                  style: sectionItem),
               onTap: () =>
                   Navigator.pushNamed(context, CustomRoute.settingColumnPage),
               additionalInfo: ColumnString(),
@@ -58,19 +62,23 @@ class MorePage extends StatelessWidget {
         CupertinoListSection.insetGrouped(
           hasLeading: false,
           dividerMargin: 6,
-          header: Text('数据', style: sectionHeader),
+          header:
+              Text(AppLocalizations.of(context)!.data, style: sectionHeader),
           backgroundColor: backgroundColor,
           children: [
             CupertinoListTile(
-              title: Text('图片数量', style: sectionItem),
+              title: Text(AppLocalizations.of(context)!.quantity,
+                  style: sectionItem),
               additionalInfo: Text(imageNumStr, style: fontLarge),
             ),
             CupertinoListTile(
-              title: Text('最后更新', style: sectionItem),
+              title: Text(AppLocalizations.of(context)!.lastUpdate,
+                  style: sectionItem),
               additionalInfo: Text(lastUpdateStr, style: fontLarge),
             ),
             CupertinoListTile(
-              title: Text('版本', style: sectionItem),
+              title: Text(AppLocalizations.of(context)!.version,
+                  style: sectionItem),
               additionalInfo: Text(version, style: fontLarge),
             ),
           ],
@@ -78,11 +86,13 @@ class MorePage extends StatelessWidget {
         CupertinoListSection.insetGrouped(
           hasLeading: false,
           dividerMargin: 6,
-          header: Text('作者', style: sectionHeader),
+          header:
+              Text(AppLocalizations.of(context)!.about, style: sectionHeader),
           backgroundColor: backgroundColor,
           children: [
             CupertinoListTile(
-              title: Text('关于作者', style: sectionItem),
+              title: Text(AppLocalizations.of(context)!.author,
+                  style: sectionItem),
               onTap: () => {
                 Navigator.pushNamed(context, CustomRoute.settingAboutPage),
               },
@@ -98,11 +108,17 @@ class MorePage extends StatelessWidget {
 class ColumnString extends StatelessWidget {
   const ColumnString({super.key});
 
+  String getColumnNumStr(BuildContext context, int columnNum) {
+    return columnNum == 0
+        ? AppLocalizations.of(context)!.auto
+        : columnNum.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     final columnNum =
         context.select<GlobalStore, int>((store) => store.columnNum);
-    final columnNumStr = getColumnNumStr(columnNum);
+    final columnNumStr = getColumnNumStr(context, columnNum);
     return Text(columnNumStr, style: const TextStyle(fontSize: 16));
   }
 }
@@ -110,11 +126,22 @@ class ColumnString extends StatelessWidget {
 class ThemeString extends StatelessWidget {
   const ThemeString({super.key});
 
+  String getThemeModeStr(BuildContext context, ThemeMode themeMode) {
+    switch (themeMode) {
+      case ThemeMode.system:
+        return AppLocalizations.of(context)!.system;
+      case ThemeMode.light:
+        return AppLocalizations.of(context)!.light;
+      case ThemeMode.dark:
+        return AppLocalizations.of(context)!.dark;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeMode =
         context.select<GlobalStore, ThemeMode>((store) => store.themeMode);
-    final themeStr = getThemeModeStr(themeMode);
+    final themeStr = getThemeModeStr(context, themeMode);
     return Text(themeStr, style: const TextStyle(fontSize: 16));
   }
 }

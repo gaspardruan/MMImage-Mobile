@@ -46,27 +46,8 @@ bool shouldUpdate(DateTime lastUpdate) {
 
 // ------- string utils -------
 
-String getThemeModeStr(ThemeMode themeMode) {
-  switch (themeMode) {
-    case ThemeMode.system:
-      return '跟随系统';
-    case ThemeMode.light:
-      return '浅色';
-    case ThemeMode.dark:
-      return '深色';
-  }
-}
-
-String getColumnNumStr(int columnNum) {
-  if (columnNum == 0) {
-    return '自动';
-  }
-  return columnNum.toString();
-}
-
 String getTimeStr(DateTime time) {
   // 2021-09-01 12:00:00
-  // 采用字符串截取的方式
   return time.toString().substring(0, 19);
 }
 
