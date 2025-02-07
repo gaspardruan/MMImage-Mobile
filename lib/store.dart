@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,22 +48,14 @@ class GlobalStore extends ChangeNotifier {
   }
 
   Future initStore() async {
-    final notFirstLoad = await updateFromLocal();
     version = (await PackageInfo.fromPlatform()).version;
-    if (notFirstLoad) {
-      loaded = true;
-      notifyListeners();
 
-      if (shouldUpdate(lastUpdate)) {
-        await updateFromServer();
-        lastUpdate = DateTime.now();
-        notifyListeners();
-      }
-    } else {
+    final notFirstLoad = await updateFromLocal();
+    if (!notFirstLoad) {
+      await updateFromJson();
       await updateFromServer();
-      lastUpdate = DateTime.now();
-      loaded = true;
-      notifyListeners();
+    } else if (shouldUpdate(lastUpdate)) {
+      await updateFromServer();
     }
   }
 
@@ -79,6 +73,25 @@ class GlobalStore extends ChangeNotifier {
     } else {
       throw Exception('Failed to load images');
     }
+
+    lastUpdate = DateTime.now();
+    loaded = true;
+    notifyListeners();
+  }
+
+  Future<void> updateFromJson() async {
+    final beautyJson = await rootBundle.loadString('assets/beauty.json');
+    final latestJson = await rootBundle.loadString('assets/latest.json');
+
+    latest = ImageSuit.fromJsonList(jsonDecode(latestJson)['data']);
+    final beauty = BeautySuit.fromJson(jsonDecode(beautyJson)['data']);
+    names = _nameTrans(beauty.names);
+    tags = _extractTags(beauty.names.keys.toList());
+    albums = beauty.collections;
+
+    lastUpdate = DateTime(2025, 2, 7);
+    loaded = true;
+    notifyListeners();
   }
 
   Future<bool> updateFromLocal() async {
@@ -102,6 +115,8 @@ class GlobalStore extends ChangeNotifier {
             MapEntry(key as String, ImageSuit.fromJson(value))) ??
         collections;
 
+    loaded = true;
+    notifyListeners();
     return true;
   }
 
