@@ -1,0 +1,83 @@
+name: Release Draft on Pushing Tag
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "oracle"
+          java-version: "21"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: pubspec.yaml
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Install Certificates
+        env:
+          STORE_FILE: ${{ secrets.ANDROID_KEYSTORE }}
+          PROPERTY_FILE: ${{ secrets.ANDROID_KEY_PROPERTIES }}
+        run: |
+          echo "$STORE_FILE" | base64 --decode > android/upload-keystore.jks
+          echo "$PROPERTY_FILE" > android/key.properties
+
+      - name: Build APK
+        run: flutter build apk --split-per-abi
+
+      - name: Build IPA
+        run: flutter build ios --no-codesign
+
+      - name: Create Variable
+        run: |
+          TAG="${GITHUB_REF##*/}"
+          TAG_NUM="${TAG#v}"
+          IOS_DIR="build/ios/iphoneos"
+          ANDROID_DIR="build/app/outputs/flutter-apk"
+          IOS_NAME="MMImage-$TAG_NUM-ios.ipa"
+          ANDROID_NAME="MMImage-$TAG_NUM-android.apk"
+          ANDROID_V7_NAME="MMImage-$TAG_NUM-android-armeabi-v7a.apk"
+          ANDROID_V8_NAME="MMImage-$TAG_NUM-android-arm64-v8a.apk"
+          ANDROID_X86_NAME="MMImage-$TAG_NUM-android-x86.apk"
+
+      - name: Convert APP to IPA
+        run: |
+          mkdir -p $IOS_DIR/Payload
+          mv $IOS_DIR/Runner.app $IOS_DIR/Payload
+          cd $IOS_DIR
+          zip -r $IOS_NAME Payload
+          cd ../../..
+
+      - name: Rename APKs
+        run: |
+          mv $ANDROID_DIR/app-release.apk $ANDROID_DIR/$ANDROID_NAME
+          mv $ANDROID_DIR/app-armeabi-v7a-release.apk $ANDROID_DIR/$ANDROID_V7_NAME
+          mv $ANDROID_DIR/app-arm64-v8a-release.apk $ANDROID_DIR/$ANDROID_V8_NAME
+          mv $ANDROID_DIR/app-x86_64-release.apk $ANDROID_DIR/$ANDROID_X86_NAME
+
+      - name: Create Release Draft
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: |
+            $IOS_DIR/$IOS_NAME
+            $ANDROID_DIR/$ANDROID_NAME
+            $ANDROID_DIR/$ANDROID_V7_NAME
+            $ANDROID_DIR/$ANDROID_V8_NAME
+            $ANDROID_DIR/$ANDROID_X86_NAME
+          draft: true
