@@ -8,6 +8,16 @@ on:
 jobs:
   build:
     runs-on: macos-latest
+    env:
+      TAG: "${GITHUB_REF##*/}"
+      TAG_NUM: "${TAG#v}"
+      IOS_DIR: "build/ios/iphoneos"
+      ANDROID_DIR: "build/app/outputs/flutter-apk"
+      IOS_NAME: "MMImage-$TAG_NUM-ios.ipa"
+      ANDROID_NAME: "MMImage-$TAG_NUM-android.apk"
+      ANDROID_V7_NAME: "MMImage-$TAG_NUM-android-armeabi-v7a.apk"
+      ANDROID_V8_NAME: "MMImage-$TAG_NUM-android-arm64-v8a.apk"
+      ANDROID_X64_NAME: "MMImage-$TAG_NUM-android-x86_64.apk"
 
     steps:
       - name: Checkout Code
@@ -44,18 +54,6 @@ jobs:
       - name: Build IPA
         run: flutter build ios --no-codesign
 
-      - name: Create Variable
-        run: |
-          TAG="${GITHUB_REF##*/}"
-          TAG_NUM="${TAG#v}"
-          echo "IOS_DIR=build/ios/iphoneos" >> $GITHUB_ENV
-          echo "ANDROID_DIR=build/app/outputs/flutter-apk" >> $GITHUB_ENV
-          echo "IOS_NAME=MMImage-$TAG_NUM-ios.ipa" >> $GITHUB_ENV
-          echo "ANDROID_NAME=MMImage-$TAG_NUM-android.apk" >> $GITHUB_ENV
-          echo "ANDROID_V7_NAME=MMImage-$TAG_NUM-android-armeabi-v7a.apk" >> $GITHUB_ENV
-          echo "ANDROID_V8_NAME=MMImage-$TAG_NUM-android-arm64-v8a.apk" >> $GITHUB_ENV
-          echo "ANDROID_X64_NAME=MMImage-$TAG_NUM-android-x86_64.apk" >> $GITHUB_ENV
-
       - name: Convert APP to IPA
         run: |
           mkdir -p $IOS_DIR/Payload
@@ -77,9 +75,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           files: |
-            $IOS_DIR/$IOS_NAME
-            $ANDROID_DIR/$ANDROID_NAME
-            $ANDROID_DIR/$ANDROID_V7_NAME
-            $ANDROID_DIR/$ANDROID_V8_NAME
-            $ANDROID_DIR/$ANDROID_X86_NAME
+            ${{ env.IOS_DIR }}/${{ env.IOS_NAME }}
+            ${{ env.ANDROID_DIR }}/${{ env.ANDROID_NAME }}
+            ${{ env.ANDROID_DIR }}/${{ env.ANDROID_V7_NAME }}
+            ${{ env.ANDROID_DIR }}/${{ env.ANDROID_V8_NAME }}
+            ${{ env.ANDROID_DIR }}/${{ env.ANDROID_X64_NAME }}
           draft: true
