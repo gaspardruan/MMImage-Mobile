@@ -48,13 +48,13 @@ jobs:
         run: |
           TAG="${GITHUB_REF##*/}"
           TAG_NUM="${TAG#v}"
-          IOS_DIR="build/ios/iphoneos"
-          ANDROID_DIR="build/app/outputs/flutter-apk"
-          IOS_NAME="MMImage-$TAG_NUM-ios.ipa"
-          ANDROID_NAME="MMImage-$TAG_NUM-android.apk"
-          ANDROID_V7_NAME="MMImage-$TAG_NUM-android-armeabi-v7a.apk"
-          ANDROID_V8_NAME="MMImage-$TAG_NUM-android-arm64-v8a.apk"
-          ANDROID_X64_NAME="MMImage-$TAG_NUM-android-x86_64.apk"
+          echo "IOS_DIR=build/ios/iphoneos" >> $GITHUB_ENV
+          echo "ANDROID_DIR=build/app/outputs/flutter-apk" >> $GITHUB_ENV
+          echo "IOS_NAME=MMImage-$TAG_NUM-ios.ipa" >> $GITHUB_ENV
+          echo "ANDROID_NAME=MMImage-$TAG_NUM-android.apk" >> $GITHUB_ENV
+          echo "ANDROID_V7_NAME=MMImage-$TAG_NUM-android-armeabi-v7a.apk" >> $GITHUB_ENV
+          echo "ANDROID_V8_NAME=MMImage-$TAG_NUM-android-arm64-v8a.apk" >> $GITHUB_ENV
+          echo "ANDROID_X64_NAME=MMImage-$TAG_NUM-android-x86_64.apk" >> $GITHUB_ENV
 
       - name: Convert APP to IPA
         run: |
