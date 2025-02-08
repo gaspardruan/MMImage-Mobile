@@ -37,7 +37,9 @@ jobs:
           echo "$PROPERTY_FILE" > android/key.properties
 
       - name: Build APK
-        run: flutter build apk --split-per-abi
+        run: |
+          flutter build apk --split-per-abi
+          flutter build apk
 
       - name: Build IPA
         run: flutter build ios --no-codesign
@@ -52,7 +54,7 @@ jobs:
           ANDROID_NAME="MMImage-$TAG_NUM-android.apk"
           ANDROID_V7_NAME="MMImage-$TAG_NUM-android-armeabi-v7a.apk"
           ANDROID_V8_NAME="MMImage-$TAG_NUM-android-arm64-v8a.apk"
-          ANDROID_X86_NAME="MMImage-$TAG_NUM-android-x86.apk"
+          ANDROID_X64_NAME="MMImage-$TAG_NUM-android-x86_64.apk"
 
       - name: Convert APP to IPA
         run: |
@@ -67,7 +69,7 @@ jobs:
           mv $ANDROID_DIR/app-release.apk $ANDROID_DIR/$ANDROID_NAME
           mv $ANDROID_DIR/app-armeabi-v7a-release.apk $ANDROID_DIR/$ANDROID_V7_NAME
           mv $ANDROID_DIR/app-arm64-v8a-release.apk $ANDROID_DIR/$ANDROID_V8_NAME
-          mv $ANDROID_DIR/app-x86_64-release.apk $ANDROID_DIR/$ANDROID_X86_NAME
+          mv $ANDROID_DIR/app-x86_64-release.apk $ANDROID_DIR/$ANDROID_X64_NAME
 
       - name: Create Release Draft
         uses: softprops/action-gh-release@v2
