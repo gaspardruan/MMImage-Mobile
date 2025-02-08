@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../models/image_suit.dart';
 import '../route.dart';
@@ -106,7 +107,8 @@ class _ImageGridState extends State<ImageGrid> {
           return Center(
               child: Padding(
             padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-            child: Text('加载错误，请重启应用', textAlign: TextAlign.center),
+            child: Text(AppLocalizations.of(context)!.error,
+                textAlign: TextAlign.center),
           ));
         },
         placeholder: (context, url) {

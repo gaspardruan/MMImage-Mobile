@@ -22,5 +22,6 @@
   "bilibili": "Bilibili",
   "declaration": "Data come from the network, develop for learning only, code is shared on Github, welcome to issue. \n\nIf you feel good, feel free to star on Github and follow on Bilibili.",
   "noInternet": "No Internet",
-  "noInternetHelp": "App has no internet. Please set internet permission or connection in Settings and relaunch."
+  "noInternetHelp": "App has no internet. Please set internet permission or connection in Settings and relaunch.",
+  "error": "Load error, please relaunch"
 }
