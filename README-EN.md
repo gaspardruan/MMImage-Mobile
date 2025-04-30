@@ -14,4 +14,4 @@ MMImage supports **Android** and **iOS**. In the app, you can view and collect.
 
 ## More
 
-See [MMImage-Web](https://github.com/gaspardruan/MMImage-Web) for the web version and [MMImage](https://github.com/gaspardruan/MMImage) for the desktop version.
+See [MMImage](https://github.com/gaspardruan/MMImage) for the desktop version.
