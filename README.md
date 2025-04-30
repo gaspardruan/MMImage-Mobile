@@ -12,4 +12,4 @@ MMImage 支持 **Android** 和 **iOS**，主要功能就是看图和收藏。
 
 ## 更多
 
-可以看看 Web 版 [MMImage-Web](https://github.com/gaspardruan/MMImage-Web) 和 桌面版[MMImage](https://github.com/gaspardruan/MMImage)。
+可以看看桌面版[MMImage](https://github.com/gaspardruan/MMImage)。
