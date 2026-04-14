@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'models/image_suit.dart';
 
 // const value
-const baseURL = 'http://newxiuren.com/uploadfiles/';
+const baseURL = 'http://newxiuren.cn/uploadfiles/';
 const gihubHome = 'https://github.com/gaspardruan/MMImage-Mobile';
 const bilibiliHome = 'https://space.bilibili.com/470093851';
 const pageSize = 24;
